@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐱 CatCoin Pusher • World Cup 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+        
+        :root {
+            --primary: #16a34a;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+        }
+        
+        .arcade-machine {
+            background: linear-gradient(#166534, #14532d);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4),
+                        inset 0 4px 0 #4ade80,
+                        inset 0 -4px 0 #166534,
+                        0 0 0 12px #052e16;
+            border: 8px solid #052e16;
+        }
+        
+        .pusher-bar {
+            background: linear-gradient(#eab308, #ca8a04);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3),
+                        inset 0 2px 0 #fef08c,
+                        inset 0 -2px 0 #854d0e;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .team-coin {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3),
+                        0 4px 6px -4px rgb(0 0 0 / 0.3),
+                        inset 0 2px 0 rgba(255,255,255,0.3);
+        }
+        
+        .team-coin:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+        }
+        
+        .cat-coin {
+            animation: catDrop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.3));
+        }
+        
+        @keyframes catDrop {
+            0% {
+                transform: translateY(-180px) rotate(-25deg) scale(0.6);
+                opacity: 0;
+            }
+            40% {
+                transform: translateY(20px) rotate(8deg) scale(1.1);
+                opacity: 1;
+            }
+            55% {
+                transform: translateY(-15px) rotate(-4deg) scale(0.95);
+            }
+            70% {
+                transform: translateY(5px) rotate(2deg) scale(1);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+        }
+        
+        .push-animation {
+            animation: pushWave 0.7s ease-out forwards;
+        }
+        
+        @keyframes pushWave {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(12px); }
+            50% { transform: translateX(-6px); }
+            75% { transform: translateX(4px); }
+            100% { transform: translateX(0); }
+        }
+        
+        .fall-off {
+            animation: fallOffEdge 0.8s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+            z-index: 50;
+        }
+        
+        @keyframes fallOffEdge {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            40% {
+                transform: translateX(80px) translateY(30px) rotate(25deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateX(220px) translateY(120px) rotate(65deg);
+                opacity: 0;
+            }
+        }
+        
+        .machine-glass {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.02) 30%,
+                rgba(0,0,0,0.15) 70%
+            );
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.4);
+        }
+        
+        .team-card {
+            background: #052e16;
+            border: 3px solid #4ade80;
+        }
+        
+        .arcade-text {
+            font-family: "Press Start 2P", system-ui;
+            text-shadow: 3px 3px 0 #052e16;
+        }
+        
+        .coin-stack {
+            background-image: 
+                linear-gradient(#166534 1px, transparent 1px),
+                linear-gradient(90deg, #166534 1px, transparent 1px);
+            background-size: 18px 18px;
+            opacity: 0.15;
+        }
+        
+        .eliminated-item {
+            transition: all 0.2s ease;
+        }
+        
+        .stat-value {
+            font-family: "Press Start 2P", system-ui;
+        }
+        
+        .cat-btn {
+            transition: all 0.1s ease;
+        }
+        
+        .cat-btn:active {
+            transform: scale(0.95) translateY(2px);
+        }
+        
+        .worldcup-bg {
+            background-image: url('data:image/svg+xml,%3Csvg width=%22600%22 height=%22600%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cdefs%3E%3Cpattern id=%22soccer%22 patternUnits=%22userSpaceOnUse%22 width=%2260%22 height=%2260%22%3E%3Cpath d=%22M30 5 L55 20 L55 45 L30 55 L5 45 L5 20 Z%22 fill=%22none%22 stroke=%22%23166b34%22 stroke-width=%221.5%22/%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%228%22 fill=%22none%22 stroke=%22%23166b34%22 stroke-width=%221%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%22600%22 height=%22600%22 fill=%22url(%23soccer)%22/%3E%3C/svg%27');
+            background-size: 120px 120px;
+            opacity: 0.06;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="max-w-[1280px] mx-auto p-4">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-x-4">
+                <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-4xl shadow-inner border-4 border-emerald-400">
+                    🐱
+                </div>
+                <div>
+                    <h1 class="text-4xl font-black tracking-tighter arcade-text">CATCOIN PUSHER</h1>
+                    <p class="text-emerald-400 text-sm font-bold tracking-[3px]">WORLD CUP 2026 ELIMINATOR</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-x-3">
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl px-5 py-2 flex items-center gap-x-3">
+                    <div>
+                        <div class="text-xs text-slate-400">ELIMINATIONS</div>
+                        <div id="elim-count" class="stat-value text-3xl font-black text-emerald-400">0 / 47</div>
+                    </div>
+                    <div class="w-px h-9 bg-slate-700"></div>
+                    <div>
+                        <div class="text-xs text-slate-400">REMAINING</div>
+                        <div id="remaining-count" class="stat-value text-3xl font-black">48</div>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-900/70 border border-amber-600 rounded-2xl px-5 py-2 flex items-center gap-x-2">
+                    <i class="fa-solid fa-coins text-amber-400 text-xl"></i>
+                    <div>
+                        <div class="text-xs text-amber-400">MEOW TOKENS</div>
+                        <div id="token-count" class="stat-value text-2xl font-black text-amber-300">3,200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            
+            <!-- LEFT: CAT SHOP -->
+            <div class="lg:col-span-3 bg-slate-900 border border-slate-700 rounded-3xl p-4">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <div>
+                        <h3 class="font-black text-xl flex items-center gap-x-2">
+                            <i class="fa-solid fa-store text-emerald-400"></i> 
+                            <span>CAT COIN SHOP</span>
+                        </h3>
+                        <p class="text-xs text-slate-400">Buy cats to activate the pusher</p>
+                    </div>
+                </div>
+                
+                <div id="cat-shop" class="grid grid-cols-2 gap-2.5 max-h-[520px] overflow-y-auto pr-1 custom-scroll">
+                    <!-- Populated by JS -->
+                </div>
+                
+                <div class="mt-3 px-1 text-[10px] text-center text-slate-500">
+                    Different cats = different push personalities
+                </div>
+            </div>
+            
+            <!-- CENTER: THE PUSHER MACHINE -->
+            <div class="lg:col-span-6">
+                <div class="arcade-machine rounded-[2.75rem] p-4 relative overflow-hidden">
+                    <!-- Machine Header -->
+                    <div class="flex items-center justify-between px-4 pb-3">
+                        <div class="flex items-center gap-x-2">
+                            <div class="px-3 py-1 bg-emerald-950 border border-emerald-600 rounded-full text-xs font-bold flex items-center gap-x-1.5">
+                                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                <span class="text-emerald-300">LIVE • 2026</span>
+                            </div>
+                            <div class="text-xs text-emerald-400 font-mono">FOFA ARCADE EDITION</div>
+                        </div>
+                        
+                        <div class="text-right">
+                            <div class="text-xs text-emerald-400">THE PUSH SHELF</div>
+                            <div id="ledge-count" class="text-emerald-300 text-sm font-bold">8 TEAMS AT THE EDGE</div>
+                        </div>
+                    </div>
+                    
+                    <!-- The Machine Glass / Play Area -->
+                    <div class="relative rounded-3xl overflow-hidden border-[6px] border-[#052e16] bg-[#052e16] shadow-inner" 
+                         style="height: 420px; background: linear-gradient(#14532d, #052e16);">
+                        
+                        <!-- Subtle soccer pattern -->
+                        <div class="worldcup-bg absolute inset-0"></div>
+                        
+                        <!-- Drop Zone -->
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-24 flex items-center justify-center z-30 pointer-events-none">
+                            <div id="drop-zone" 
+                                 class="w-16 h-16 border-2 border-dashed border-emerald-400/60 rounded-full flex items-center justify-center text-4xl transition-all">
+                                <!-- Cat lands here -->
+                            </div>
+                        </div>
+                        
+                        <!-- THE LEDGE / FRONT ROW -->
+                        <div class="absolute top-[70px] left-1/2 -translate-x-1/2 w-[92%] z-20">
+                            <div class="text-center mb-1.5">
+                                <span class="text-[10px] font-bold tracking-widest text-emerald-400/70">THE EDGE • AT RISK</span>
+                            </div>
+                            
+                            <div id="ledge-area" 
+                                 class="flex flex-wrap justify-center gap-2 min-h-[118px] px-3 py-3 bg-black/30 rounded-2xl border border-emerald-900/60">
+                                <!-- Team coins populated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- PUSHER BAR -->
+                        <div class="absolute bottom-[78px] left-0 right-0 px-4 z-10">
+                            <div id="pusher-bar"
+                                 class="h-7 w-full rounded-xl pusher-bar flex items-center justify-center cursor-pointer"
+                                 onclick="manualPush()">
+                                <div class="flex items-center gap-x-1.5 text-[#713f12] text-xs font-black tracking-widest">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    <span>PUSHER</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Deep Pile Info -->
+                        <div class="absolute bottom-[22px] left-1/2 -translate-x-1/2 text-center z-10">
+                            <div class="inline-flex items-center gap-x-2 bg-black/60 px-4 py-1 rounded-2xl border border-emerald-900/40">
+                                <i class="fa-solid fa-layer-group text-emerald-400/70"></i>
+                                <div>
+                                    <span id="pile-count" class="font-black text-emerald-300 text-lg">40</span>
+                                    <span class="text-emerald-400/70 text-xs font-bold"> BURIED IN THE PILE</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Machine Label -->
+                        <div class="absolute bottom-1.5 right-4 text-[9px] text-emerald-400/40 font-mono tracking-widest">CATCOIN v1.0</div>
+                    </div>
+                    
+                    <!-- Eliminated Chute -->
+                    <div class="absolute -right-1 top-16 bottom-16 w-14 bg-gradient-to-b from-red-950/90 to-red-900/80 border-l-4 border-red-700 rounded-l-3xl flex flex-col items-center pt-3 z-40">
+                        <div class="text-red-400 text-[9px] font-black tracking-widest -rotate-90 origin-center whitespace-nowrap mt-5">ELIMINATED</div>
+                        <div id="chute-preview" class="flex-1 flex flex-col items-center justify-end gap-y-1 pb-4">
+                            <!-- Last eliminated preview icons -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls under machine -->
+                <div class="flex items-center justify-center gap-x-3 mt-3">
+                    <button onclick="simulateFastEliminations(5)"
+                            class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
+                        <i class="fa-solid fa-forward"></i>
+                        <span>FAST FORWARD ×5</span>
+                    </button>
+                    
+                    <button onclick="resetGame()"
+                            class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
+                        <i class="fa-solid fa-undo"></i>
+                        <span>RESET GAME</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- RIGHT: ELIMINATED + INFO -->
+            <div class="lg:col-span-3 bg-slate-900 border border-slate-700 rounded-3xl p-4 flex flex-col">
+                <div class="mb-3">
+                    <h3 class="font-black flex items-center gap-x-2 text-xl">
+                        <i class="fa-solid fa-skull text-red-400"></i> 
+                        <span>ELIMINATED</span>
+                    </h3>
+                    <div class="text-xs text-slate-400">Pushed off the edge by cats</div>
+                </div>
+                
+                <div id="eliminated-list" 
+                     class="flex-1 overflow-y-auto pr-1 space-y-1.5 text-sm custom-scroll max-h-[340px]">
+                    <!-- Populated by JS -->
+                </div>
+                
+                <div class="mt-auto pt-3 border-t border-slate-700">
+                    <div class="text-xs text-center text-slate-400 mb-1">THE LAST TEAM STANDING WINS THE WORLD CUP</div>
+                    <div onclick="if(confirm('Really reset the entire game?')) resetGame()" 
+                         class="cursor-pointer text-center text-xs py-1.5 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center gap-x-1">
+                        <i class="fa-solid fa-power-off"></i>
+                        <span class="font-bold">END RUN &amp; RESTART</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Bottom hint -->
+        <div class="text-center mt-4 text-xs text-slate-500 flex items-center justify-center gap-x-2">
+            <span>Click any cat in the shop to buy &amp; drop a coin into the pusher.</span>
+            <span class="hidden lg:inline">•</span>
+            <span class="hidden lg:inline">Edge teams are more likely to be eliminated.</span>
+        </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[100]">
+        <div class="max-w-md w-full mx-4 bg-slate-900 border border-emerald-400 rounded-3xl p-8 text-center relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 text-[140px] opacity-10">🏆</div>
+            
+            <div class="text-6xl mb-1">🏆</div>
+            <div class="text-emerald-400 text-xs tracking-[4px] font-black mb-1">WORLD CUP 2026 CHAMPION</div>
+            
+            <div id="winner-display" class="my-4">
+                <!-- Populated dynamically -->
+            </div>
+            
+            <p class="text-slate-300 mb-6 text-sm">Your cat coins have decided the fate of the tournament.<br>47 teams pushed. One champion crowned.</p>
+            
+            <div class="flex gap-x-3 justify-center">
+                <button onclick="resetGame(); hideVictoryModal()"
+                        class="flex-1 py-3.5 font-black text-lg bg-emerald-500 hover:bg-emerald-600 transition-colors rounded-2xl text-emerald-950">
+                    PLAY AGAIN
+                </button>
+                <button onclick="hideVictoryModal()"
+                        class="flex-1 py-3.5 font-bold border border-slate-600 hover:bg-slate-800 transition-colors rounded-2xl">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== GAME DATA ====================
+        const ALL_TEAMS = [
+            { code: "ARG", name: "Argentina", flag: "🇦🇷" },
+            { code: "AUS", name: "Australia", flag: "🇦🇺" },
+            { code: "AUT", name: "Austria", flag: "🇦🇹" },
+            { code: "BEL", name: "Belgium", flag: "🇧🇪" },
+            { code: "BIH", name: "Bosnia & Herzegovina", flag: "🇧🇦" },
+            { code: "BRA", name: "Brazil", flag: "🇧🇷" },
+            { code: "CPV", name: "Cabo Verde", flag: "🇨🇻" },
+            { code: "CAN", name: "Canada", flag: "🇨🇦" },
+            { code: "COL", name: "Colombia", flag: "🇨🇴" },
+            { code: "CRO", name: "Croatia", flag: "🇭🇷" },
+            { code: "CUW", name: "Curaçao", flag: "🇨🇼" },
+            { code: "CZE", name: "Czechia", flag: "🇨🇿" },
+            { code: "COD", name: "DR Congo", flag: "🇨🇩" },
+            { code: "ECU", name: "Ecuador", flag: "🇪🇨" },
+            { code: "EGY", name: "Egypt", flag: "🇪🇬" },
+            { code: "ENG", name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+            { code: "FRA", name: "France", flag: "🇫🇷" },
+            { code: "GER", name: "Germany", flag: "🇩🇪" },
+            { code: "GHA", name: "Ghana", flag: "🇬🇭" },
+            { code: "HTI", name: "Haiti", flag: "🇭🇹" },
+            { code: "IRN", name: "Iran", flag: "🇮🇷" },
+            { code: "IRQ", name: "Iraq", flag: "🇮🇶" },
+            { code: "CIV", name: "Ivory Coast", flag: "🇨🇮" },
+            { code: "JPN", name: "Japan", flag: "🇯🇵" },
+            { code: "JOR", name: "Jordan", flag: "🇯🇴" },
+            { code: "MEX", name: "Mexico", flag: "🇲🇽" },
+            { code: "MAR", name: "Morocco", flag: "🇲🇦" },
+            { code: "NLD", name: "Netherlands", flag: "🇳🇱" },
+            { code: "NZL", name: "New Zealand", flag: "🇳🇿" },
+            { code: "NOR", name: "Norway", flag: "🇳🇴" },
+            { code: "PAN", name: "Panama", flag: "🇵🇦" },
+            { code: "PRY", name: "Paraguay", flag: "🇵🇾" },
+            { code: "PRT", name: "Portugal", flag: "🇵🇹" },
+            { code: "QAT", name: "Qatar", flag: "🇶🇦" },
+            { code: "SAU", name: "Saudi Arabia", flag: "🇸🇦" },
+            { code: "SCO", name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿" },
+            { code: "SEN", name: "Senegal", flag: "🇸🇳" },
+            { code: "ZAF", name: "South Africa", flag: "🇿🇦" },
+            { code: "KOR", name: "South Korea", flag: "🇰🇷" },
+            { code: "ESP", name: "Spain", flag: "🇪🇸" },
+            { code: "SWE", name: "Sweden", flag: "🇸🇪" },
+            { code: "CHE", name: "Switzerland", flag: "🇨🇭" },
+            { code: "TUN", name: "Tunisia", flag: "🇹🇳" },
+            { code: "TUR", name: "Türkiye", flag: "🇹🇷" },
+            { code: "USA", name: "United States", flag: "🇺🇸" },
+            { code: "URY", name: "Uruguay", flag: "🇺🇾" },
+            { code: "UZB", name: "Uzbekistan", flag: "🇺🇿" },
+            { code: "DZA", name: "Algeria", flag: "🇩🇿" }
+        ];
+
+        const CAT_BREEDS = [
+            {
+                id: 1,
+                name: "Ragdoll",
+                emoji: "🐈",
+                cost: 25,
+                desc: "Gentle giant. Your floofy favorite.",
+                effect: "normal",
+                color: "#f9a8d4"
+            },
+            {
+                id: 2,
+                name: "Maine Coon",
+                emoji: "🐈‍⬛",
+                cost: 50,
+                desc: "Big paws, powerful push. Can eliminate 2!",
+                effect: "power",
+                color: "#854d0e"
+            },
+            {
+                id: 3,
+                name: "British Shorthair",
+                emoji: "🐈",
+                cost: 30,
+                desc: "Classic & reliable. Always fair.",
+                effect: "normal",
+                color: "#64748b"
+            },
+            {
+                id: 4,
+                name: "Bengal",
+                emoji: "🔆",
+                cost: 55,
+                desc: "Wild & unpredictable. High energy pushes.",
+                effect: "power",
+                color: "#b45309"
+            },
+            {
+                id: 5,
+                name: "Siamese",
+                emoji: "🐈",
+                cost: 35,
+                desc: "Chatty cat. Very precise eliminations.",
+                effect: "normal",
+                color: "#c026d3"
+            },
+            {
+                id: 6,
+                name: "Persian",
+                emoji: "🐈",
+                cost: 45,
+                desc: "Regal. Protects underdogs slightly.",
+                effect: "normal",
+                color: "#854d0e"
+            },
+            {
+                id: 7,
+                name: "Scottish Fold",
+                emoji: "🐈",
+                cost: 40,
+                desc: "Wise ears. Balanced & thoughtful.",
+                effect: "normal",
+                color: "#4b5563"
+            },
+            {
+                id: 8,
+                name: "Sphynx",
+                emoji: "🐈",
+                cost: 60,
+                desc: "Naked truth. Aggressive pusher.",
+                effect: "power",
+                color: "#9f1239"
+            }
+        ];
+
+        // ==================== GAME STATE ====================
+        let remainingTeams = [];
+        let eliminatedTeams = [];
+        let tokens = 3200;
+        let ledgeTeams = [];
+        let playsMade = 0;
+        let gameOver = false;
+
+        // ==================== AUDIO ====================
+        let audioContext;
+        
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {}
+        }
+        
+        function playSound(type) {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+            
+            oscillator.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioContext.destination);
+            
+            if (type === 'drop') {
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.value = 420;
+                filter.type = 'lowpass';
+                filter.frequency.value = 800;
+                gain.gain.value = 0.18;
+                
+                setTimeout(() => {
+                    oscillator.frequency.exponentialRampToValueAtTime(180, audioContext.currentTime + 0.6);
+                }, 80);
+                
+                setTimeout(() => {
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.7);
+                }, 120);
+                
+            } else if (type === 'elim') {
+                oscillator.type = 'square';
+                oscillator.frequency.value = 680;
+                gain.gain.value = 0.12;
+                filter.type = 'bandpass';
+                filter.frequency.value = 1200;
+                
+                setTimeout(() => {
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
+                }, 60);
+            } else if (type === 'power') {
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.value = 280;
+                gain.gain.value = 0.22;
+                
+                setTimeout(() => {
+                    oscillator.frequency.value = 520;
+                }, 180);
+                
+                setTimeout(() => {
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.6);
+                }, 220);
+            } else if (type === 'win') {
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 880;
+                gain.gain.value = 0.25;
+                setTimeout(() => { oscillator.frequency.value = 1100; }, 180);
+                setTimeout(() => { gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.2); }, 300);
+            }
+            
+            oscillator.start();
+            
+            setTimeout(() => {
+                oscillator.stop();
+            }, 1200);
+        }
+
+        // ==================== CORE FUNCTIONS ====================
+        function shuffleArray(array) {
+            const newArr = [...array];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        }
+        
+        function initGame() {
+            remainingTeams = shuffleArray([...ALL_TEAMS]);
+            eliminatedTeams = [];
+            tokens = 3200;
+            playsMade = 0;
+            gameOver = false;
+            ledgeTeams = [];
+            
+            updateUI();
+            renderCatShop();
+            refreshLedge();
+            renderEliminatedList();
+            updatePileCount();
+            
+            console.log('%c[CatCoin Pusher] Game initialized with 48 World Cup teams.', 'color:#166534');
+        }
+        
+        function updateUI() {
+            document.getElementById('elim-count').textContent = `${playsMade} / 47`;
+            document.getElementById('remaining-count').textContent = remainingTeams.length;
+            document.getElementById('token-count').textContent = tokens.toLocaleString();
+            
+            if (remainingTeams.length === 1 && !gameOver) {
+                triggerVictory();
+            }
+        }
+        
+        function updatePileCount() {
+            const pileEl = document.getElementById('pile-count');
+            const buried = Math.max(0, remainingTeams.length - ledgeTeams.length);
+            pileEl.textContent = buried;
+        }
+        
+        function refreshLedge() {
+            if (remainingTeams.length === 0) return;
+            
+            const shuffled = shuffleArray([...remainingTeams]);
+            ledgeTeams = shuffled.slice(0, Math.min(8, remainingTeams.length));
+            
+            renderLedge();
+        }
+        
+        function renderLedge() {
+            const container = document.getElementById('ledge-area');
+            container.innerHTML = '';
+            
+            if (ledgeTeams.length === 0) {
+                container.innerHTML = `<div class="text-center text-emerald-400/60 text-xs py-6 w-full">No teams left on the edge...</div>`;
+                return;
+            }
+            
+            ledgeTeams.forEach(team => {
+                const card = document.createElement('div');
+                card.className = `team-coin team-card flex-shrink-0 w-[78px] h-[78px] rounded-2xl flex flex-col items-center justify-center cursor-default border-emerald-600 relative overflow-hidden`;
+                card.setAttribute('data-code', team.code);
+                
+                card.innerHTML = `
+                    <div class="text-4xl mb-0.5 drop-shadow-md">${team.flag}</div>
+                    <div class="text-[10px] font-black tracking-wider text-emerald-300">${team.code}</div>
+                    <div class="text-[9px] text-emerald-400/70 text-center leading-none px-1 line-clamp-1">${team.name.split(' ')[0]}</div>
+                `;
+                
+                card.style.boxShadow = '0 0 0 1px #166534, inset 0 1px 0 rgba(163, 163, 172, 0.15)';
+                
+                container.appendChild(card);
+            });
+            
+            document.getElementById('ledge-count').innerHTML = `${ledgeTeams.length} TEAMS AT THE EDGE`;
+        }
+        
+        function renderEliminatedList() {
+            const container = document.getElementById('eliminated-list');
+            container.innerHTML = '';
+            
+            if (eliminatedTeams.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 text-xs">
+                        <i class="fa-solid fa-cat text-2xl mb-2 opacity-40"></i><br>
+                        No teams eliminated yet.<br>
+                        <span class="text-emerald-400/60">Start dropping cat coins!</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            const reversed = [...eliminatedTeams].reverse();
+            
+            reversed.forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = `eliminated-item flex items-center gap-x-3 px-3 py-2 bg-slate-800/60 hover:bg-slate-800 rounded-2xl border border-slate-700/60`;
+                
+                const catInfo = entry.cat ? `by <span class="font-bold text-emerald-400">${entry.cat}</span>` : '';
+                
+                item.innerHTML = `
+                    <div class="flex-shrink-0 text-2xl w-8 text-center">${entry.flag}</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="font-bold text-sm leading-tight">${entry.name}</div>
+                        <div class="text-[10px] text-red-400/70">${catInfo}</div>
+                    </div>
+                    <div class="text-[10px] text-right text-slate-500 font-mono">#${eliminatedTeams.length - index}</div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+        
+        function updateChutePreview() {
+            const container = document.getElementById('chute-preview');
+            container.innerHTML = '';
+            
+            const lastFew = eliminatedTeams.slice(-3).reverse();
+            
+            lastFew.forEach(entry => {
+                const mini = document.createElement('div');
+                mini.className = `text-xl opacity-70`;
+                mini.textContent = entry.flag;
+                container.appendChild(mini);
+            });
+        }
+        
+        function renderCatShop() {
+            const container = document.getElementById('cat-shop');
+            container.innerHTML = '';
+            
+            CAT_BREEDS.forEach(cat => {
+                const card = document.createElement('div');
+                card.className = `cat-btn group bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-emerald-400 rounded-2xl p-3 cursor-pointer flex flex-col`;
+                
+                const effectBadge = cat.effect === 'power' 
+                    ? `<span class="text-[9px] px-1.5 py-px bg-orange-400 text-orange-900 font-black rounded">POWER</span>` 
+                    : `<span class="text-[9px] px-1.5 py-px bg-emerald-400 text-emerald-900 font-black rounded">STANDARD</span>`;
+                
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="text-4xl mb-1 transition-transform group-hover:scale-110" style="color: ${cat.color}">${cat.emoji}</div>
+                        <div class="text-right">
+                            <div class="text-xs text-amber-400 font-bold">${cat.cost} <span class="text-amber-500">TOKENS</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="font-black text-base leading-none mt-1 mb-0.5">${cat.name}</div>
+                    <div class="text-xs text-slate-300 line-clamp-2 mb-2">${cat.desc}</div>
+                    
+                    <div class="mt-auto flex items-center justify-between">
+                        ${effectBadge}
+                        <button class="text-xs px-3 py-1 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-emerald-950 font-black rounded-xl transition-colors text-[10px]">
+                            BUY &amp; DROP
+                        </button>
+                    </div>
+                `;
+                
+                card.onclick = () => buyAndDropCat(cat);
+                
+                container.appendChild(card);
+            });
+        }
+        
+        function buyAndDropCat(cat) {
+            if (gameOver || remainingTeams.length <= 1) {
+                alert("The tournament is already decided!");
+                return;
+            }
+            
+            if (tokens < cat.cost) {
+                if (confirm(`You need ${cat.cost} tokens but only have ${tokens}.\n\nWant a quick top-up of 500 tokens to continue?`)) {
+                    tokens += 500;
+                    updateUI();
+                }
+                return;
+            }
+            
+            tokens -= cat.cost;
+            updateUI();
+            
+            dropCatIntoMachine(cat);
+        }
+        
+        function dropCatIntoMachine(cat) {
+            const dropZone = document.getElementById('drop-zone');
+            const ledgeContainer = document.getElementById('ledge-area');
+            
+            dropZone.innerHTML = '';
+            
+            const flyingCat = document.createElement('div');
+            flyingCat.className = `cat-coin text-6xl absolute flex items-center justify-center`;
+            flyingCat.style.left = '50%';
+            flyingCat.style.top = '12px';
+            flyingCat.style.transform = 'translateX(-50%)';
+            flyingCat.innerHTML = cat.emoji;
+            
+            dropZone.appendChild(flyingCat);
+            
+            playSound('drop');
+            
+            setTimeout(() => {
+                if (flyingCat.parentNode) flyingCat.parentNode.removeChild(flyingCat);
+                
+                const pusher = document.getElementById('pusher-bar');
+                pusher.classList.add('push-animation');
+                ledgeContainer.classList.add('push-animation');
+                
+                setTimeout(() => {
+                    pusher.classList.remove('push-animation');
+                    ledgeContainer.classList.remove('push-animation');
+                    
+                    performElimination(cat);
+                }, 680);
+            }, 1250);
+        }
+        
+        function performElimination(cat) {
+            if (remainingTeams.length <= 1) return;
+            
+            playsMade++;
+            
+            let elimCount = 1;
+            let isPowerMove = false;
+            
+            if (cat.effect === 'power' && Math.random() < 0.28) {
+                elimCount = 2;
+                isPowerMove = true;
+                playSound('power');
+            } else {
+                playSound('elim');
+            }
+            
+            const victims = [];
+            
+            for (let i = 0; i < elimCount; i++) {
+                if (remainingTeams.length === 0) break;
+                
+                let victim;
+                const useLedgeBias = Math.random() < 0.78 && ledgeTeams.length > 0;
+                
+                if (useLedgeBias) {
+                    const ledgeIndex = Math.floor(Math.random() * ledgeTeams.length);
+                    victim = ledgeTeams[ledgeIndex];
+                    ledgeTeams.splice(ledgeIndex, 1);
+                } else {
+                    const randIndex = Math.floor(Math.random() * remainingTeams.length);
+                    victim = remainingTeams[randIndex];
+                }
+                
+                remainingTeams = remainingTeams.filter(t => t.code !== victim.code);
+                
+                eliminatedTeams.push({
+                    ...victim,
+                    cat: cat.name,
+                    timestamp: Date.now()
+                });
+                
+                victims.push(victim);
+            }
+            
+            victims.forEach(victim => {
+                const cardEl = document.querySelector(`[data-code="${victim.code}"]`);
+                if (cardEl) {
+                    cardEl.style.transition = 'all 0.75s cubic-bezier(0.55, 0.06, 0.68, 0.19)';
+                    cardEl.style.transform = 'translateX(210px) translateY(90px) rotate(55deg)';
+                    cardEl.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        if (cardEl.parentNode) cardEl.parentNode.removeChild(cardEl);
+                    }, 720);
+                }
+            });
+            
+            setTimeout(() => {
+                updateUI();
+                renderEliminatedList();
+                updateChutePreview();
+                updatePileCount();
+                refreshLedge();
+                
+                if (victims.length > 0) {
+                    showElimToast(victims, cat, isPowerMove);
+                }
+                
+                if (remainingTeams.length === 1) {
+                    setTimeout(() => {
+                        triggerVictory();
+                    }, 900);
+                }
+            }, 850);
+        }
+        
+        function showElimToast(victims, cat, isPowerMove) {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999';
+            
+            let html = '';
+            
+            if (victims.length === 1) {
+                const v = victims[0];
+                html = `
+                    <div class="bg-slate-900 border border-red-500/70 shadow-xl rounded-3xl px-5 py-3 flex items-center gap-x-4 max-w-xs">
+                        <div class="text-3xl">${v.flag}</div>
+                        <div class="flex-1">
+                            <div class="text-red-400 text-xs font-bold">PUSHED OFF THE EDGE</div>
+                            <div class="font-black">${v.name}</div>
+                            <div class="text-xs text-emerald-400">by ${cat.emoji} ${cat.name}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="bg-orange-950 border border-orange-400/70 shadow-xl rounded-3xl px-5 py-3 max-w-xs">
+                        <div class="flex items-center gap-x-2 mb-1">
+                            <span class="text-orange-400 font-black text-xs">POWER MOVE!</span>
+                            <span class="text-xs text-orange-300">${cat.emoji} ${cat.name}</span>
+                        </div>
+                        <div class="text-sm">
+                            ${victims.map(v => `${v.flag} <span class="font-bold">${v.name}</span>`).join(' &amp; ')} 
+                            <span class="text-orange-300 text-xs">were eliminated!</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            toast.innerHTML = html;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transition = 'all 0.4s ease';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.parentNode.removeChild(toast), 380);
+            }, 2600);
+        }
+        
+        function manualPush() {
+            if (gameOver || remainingTeams.length <= 1) return;
+            
+            const fakeCat = {
+                name: "Manual Pusher",
+                emoji: "⚙️",
+                effect: "normal"
+            };
+            
+            const pusher = document.getElementById('pusher-bar');
+            pusher.classList.add('push-animation');
+            
+            setTimeout(() => {
+                pusher.classList.remove('push-animation');
+                performElimination(fakeCat);
+            }, 650);
+        }
+        
+        function simulateFastEliminations(count) {
+            if (gameOver || remainingTeams.length <= 1) return;
+            
+            const maxPossible = Math.min(count, remainingTeams.length - 1);
+            
+            for (let i = 0; i < maxPossible; i++) {
+                const randomCat = CAT_BREEDS[Math.floor(Math.random() * CAT_BREEDS.length)];
+                playsMade++;
+                
+                const randIndex = Math.floor(Math.random() * remainingTeams.length);
+                const victim = remainingTeams[randIndex];
+                
+                remainingTeams.splice(randIndex, 1);
+                
+                eliminatedTeams.push({
+                    ...victim,
+                    cat: randomCat.name + " (fast)"
+                });
+            }
+            
+            refreshLedge();
+            updateUI();
+            renderEliminatedList();
+            updateChutePreview();
+            updatePileCount();
+            
+            if (remainingTeams.length === 1) {
+                setTimeout(triggerVictory, 300);
+            }
+        }
+        
+        function triggerVictory() {
+            if (gameOver || remainingTeams.length !== 1) return;
+            gameOver = true;
+            
+            const winner = remainingTeams[0];
+            const modal = document.getElementById('victory-modal');
+            const display = document.getElementById('winner-display');
+            
+            display.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <div class="text-[92px] mb-1 drop-shadow-xl">${winner.flag}</div>
+                    <div class="text-4xl font-black tracking-tighter">${winner.name}</div>
+                    <div class="text-emerald-400 text-sm mt-1 font-bold">${winner.code} • WORLD CHAMPIONS</div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            playSound('win');
+            launchConfetti();
+        }
+        
+        function hideVictoryModal() {
+            const modal = document.getElementById('victory-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+        
+        function launchConfetti() {
+            const container = document.getElementById('victory-modal');
+            
+            for (let i = 0; i < 65; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'absolute text-2xl pointer-events-none';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-20px';
+                piece.style.opacity = Math.random() + 0.6;
+                piece.style.transition = `transform ${1800 + Math.random() * 2200}ms linear, opacity 800ms ease`;
+                piece.innerHTML = ['🎉', '🏆', '⚽', '🐱'][Math.floor(Math.random() * 4)];
+                
+                container.appendChild(piece);
+                
+                setTimeout(() => {
+                    piece.style.transform = `translateY(${380 + Math.random() * 280}px) rotate(${Math.random() * 520 - 140}deg)`;
+                    
+                    setTimeout(() => {
+                        piece.style.opacity = '0';
+                        setTimeout(() => {
+                            if (piece.parentNode) piece.parentNode.removeChild(piece);
+                        }, 300);
+                    }, 1600);
+                }, 40);
+            }
+        }
+        
+        function resetGame() {
+            const modal = document.getElementById('victory-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            
+            initGame();
+            
+            setTimeout(() => {
+                const welcome = document.createElement('div');
+                welcome.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%)';
+                welcome.innerHTML = `
+                    <div class="bg-emerald-900/90 text-emerald-200 text-xs px-4 py-2 rounded-2xl flex items-center gap-x-2 shadow-inner border border-emerald-400/30">
+                        <span>Game reset. 48 teams ready. Good luck, coach!</span>
+                    </div>
+                `;
+                document.body.appendChild(welcome);
+                
+                setTimeout(() => {
+                    welcome.style.transition = 'all .3s ease';
+                    welcome.style.opacity = '0';
+                    setTimeout(() => welcome.parentNode.removeChild(welcome), 200);
+                }, 1700);
+            }, 450);
+        }
+        
+        function initializeEverything() {
+            initAudio();
+            initGame();
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '?' || e.key === '/') {
+                    e.preventDefault();
+                    const shop = document.getElementById('cat-shop');
+                    shop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                if (e.key.toLowerCase() === 'r' && e.metaKey) {
+                    e.preventDefault();
+                    resetGame();
+                }
+            });
+            
+            const logo = document.querySelector('.fa-store');
+            if (logo) {
+                logo.parentElement.onclick = () => {
+                    tokens += 200;
+                    updateUI();
+                    const orig = logo.style.color;
+                    logo.style.color = '#facc15';
+                    setTimeout(() => { logo.style.color = orig || ''; }, 700);
+                };
+            }
+            
+            console.log('%c[CatCoin Pusher] Demo ready. 48 World Cup teams loaded. Meow.', 'color:#4ade80');
+        }
+        
+        window.onload = initializeEverything;
+    </script>
+</body>
+</html>
