@@ -3,97 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐱 CatCoin Pusher • World Cup 2026</title>
+    <title>🐱 CatCoin Pusher • World Cup 2026 (v7 - Debug)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
-        
         body { background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%); }
-        
-        .arcade-machine {
-            background: linear-gradient(#166534, #14532d);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4),
-                        inset 0 4px 0 #4ade80,
-                        inset 0 -4px 0 #166534,
-                        0 0 0 12px #052e16;
-            border: 8px solid #052e16;
-        }
-        
-        .physics-canvas {
-            border: 6px solid #052e16;
-            border-radius: 12px;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
-            background: #052e16;
-            display: block;
-        }
-        
+        .arcade-machine { background: linear-gradient(#166534, #14532d); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4), inset 0 4px 0 #4ade80, inset 0 -4px 0 #166534, 0 0 0 12px #052e16; border: 8px solid #052e16; }
+        .physics-canvas { border: 6px solid #052e16; border-radius: 12px; box-shadow: inset 0 0 40px rgba(0,0,0,0.6); background: #052e16; display: block; }
         .arcade-text { font-family: "Press Start 2P", system-ui; text-shadow: 3px 3px 0 #052e16; }
         .stat-value { font-family: "Press Start 2P", system-ui; }
-        
         .cat-pixel { width: 46px; height: 46px; image-rendering: crisp-edges; }
-        
-        .cat-btn { transition: all 0.1s ease; }
-        .cat-btn:active { transform: scale(0.96) translateY(1px); }
+        .debug-text { font-size: 10px; color: #4ade80; font-family: monospace; }
     </style>
 </head>
 <body class="text-white">
     <div class="max-w-[1280px] mx-auto p-4">
-        <!-- Header -->
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-x-4">
-                <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-4xl shadow-inner border-4 border-emerald-400">
-                    🐱
-                </div>
+                <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-4xl shadow-inner border-4 border-emerald-400">🐱</div>
                 <div>
                     <h1 class="text-4xl font-black tracking-tighter arcade-text">CATCOIN PUSHER</h1>
-                    <p class="text-emerald-400 text-sm font-bold tracking-[3px]">WORLD CUP 2026 ELIMINATOR • FOFA ARCADE</p>
+                    <p class="text-emerald-400 text-sm font-bold tracking-[3px]">WORLD CUP 2026 ELIMINATOR • FOFA ARCADE <span class="text-red-400">(v7 DEBUG)</span></p>
                 </div>
             </div>
             
             <div class="flex items-center gap-x-3">
                 <div class="bg-slate-800 border border-slate-700 rounded-2xl px-5 py-2 flex items-center gap-x-3">
-                    <div>
-                        <div class="text-xs text-slate-400">ELIMINATIONS</div>
-                        <div id="elim-count" class="stat-value text-3xl font-black text-emerald-400">0 / 47</div>
-                    </div>
+                    <div><div class="text-xs text-slate-400">ELIMINATIONS</div><div id="elim-count" class="stat-value text-3xl font-black text-emerald-400">0 / 47</div></div>
                     <div class="w-px h-9 bg-slate-700"></div>
-                    <div>
-                        <div class="text-xs text-slate-400">REMAINING</div>
-                        <div id="remaining-count" class="stat-value text-3xl font-black">48</div>
-                    </div>
+                    <div><div class="text-xs text-slate-400">REMAINING</div><div id="remaining-count" class="stat-value text-3xl font-black">48</div></div>
                 </div>
-                
                 <div class="bg-amber-900/70 border border-amber-600 rounded-2xl px-5 py-2 flex items-center gap-x-2">
                     <i class="fa-solid fa-coins text-amber-400 text-xl"></i>
-                    <div>
-                        <div class="text-xs text-amber-400">MEOW TOKENS</div>
-                        <div id="token-count" class="stat-value text-2xl font-black text-amber-300">3,200</div>
-                    </div>
+                    <div><div class="text-xs text-amber-400">MEOW TOKENS</div><div id="token-count" class="stat-value text-2xl font-black text-amber-300">3,200</div></div>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            
             <!-- CAT SHOP -->
             <div class="lg:col-span-3 bg-slate-900 border border-slate-700 rounded-3xl p-4">
                 <div class="flex items-center justify-between mb-3 px-1">
                     <div>
-                        <h3 class="font-black text-xl flex items-center gap-x-2">
-                            <i class="fa-solid fa-store text-emerald-400"></i> 
-                            <span>CAT COIN SHOP</span>
-                        </h3>
+                        <h3 class="font-black text-xl flex items-center gap-x-2"><i class="fa-solid fa-store text-emerald-400"></i> <span>CAT COIN SHOP</span></h3>
                         <p class="text-xs text-slate-400">Pixel art headshots • Physical cats</p>
                     </div>
                 </div>
-                
-                <div id="cat-shop" class="grid grid-cols-2 gap-2.5 max-h-[520px] overflow-y-auto pr-1 custom-scroll">
-                </div>
+                <div id="cat-shop" class="grid grid-cols-2 gap-2.5 max-h-[520px] overflow-y-auto pr-1 custom-scroll"></div>
             </div>
             
-            <!-- PHYSICS PUSHER -->
+            <!-- PHYSICS AREA -->
             <div class="lg:col-span-6">
                 <div class="arcade-machine rounded-[2.75rem] p-4 relative overflow-hidden">
                     <div class="flex items-center justify-between px-4 pb-3">
@@ -112,19 +73,18 @@
                     
                     <div class="relative rounded-3xl overflow-hidden border-[8px] border-[#052e16] bg-[#052e16] shadow-inner" style="height: 460px;">
                         <canvas id="physics-canvas" width="620" height="420" class="physics-canvas w-full h-full"></canvas>
-                        <div class="absolute bottom-2 right-3 text-[9px] text-emerald-400/40 font-mono tracking-widest z-10">v6 • MATTER.JS</div>
+                        <div id="debug-overlay" class="absolute top-2 left-2 bg-black/60 px-2 py-0.5 rounded text-[10px] font-mono text-emerald-400 z-20">Initializing...</div>
                     </div>
                     
                     <div class="flex items-center justify-center gap-x-3 mt-3">
-                        <button onclick="simulateFastEliminations(5)"
-                                class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
-                            <i class="fa-solid fa-forward"></i>
-                            <span>FAST FORWARD ×5</span>
+                        <button onclick="forceSpawnCoins()" class="px-4 py-2 text-xs font-bold flex items-center gap-x-2 bg-orange-600 hover:bg-orange-700 border border-orange-500 rounded-2xl transition-colors">
+                            <i class="fa-solid fa-sync"></i> <span>FORCE SPAWN COINS</span>
                         </button>
-                        <button onclick="resetGame()"
-                                class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
-                            <i class="fa-solid fa-undo"></i>
-                            <span>RESET GAME</span>
+                        <button onclick="simulateFastEliminations(5)" class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
+                            <i class="fa-solid fa-forward"></i> <span>FAST ×5</span>
+                        </button>
+                        <button onclick="resetGame()" class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
+                            <i class="fa-solid fa-undo"></i> <span>RESET</span>
                         </button>
                     </div>
                 </div>
@@ -132,39 +92,14 @@
             
             <!-- ELIMINATED -->
             <div class="lg:col-span-3 bg-slate-900 border border-slate-700 rounded-3xl p-4 flex flex-col">
-                <div class="mb-3">
-                    <h3 class="font-black flex items-center gap-x-2 text-xl">
-                        <i class="fa-solid fa-skull text-red-400"></i> 
-                        <span>ELIMINATED</span>
-                    </h3>
-                    <div class="text-xs text-slate-400">Fell off the front edge</div>
-                </div>
-                
-                <div id="eliminated-list" class="flex-1 overflow-y-auto pr-1 space-y-1.5 text-sm custom-scroll max-h-[340px]">
-                </div>
-                
+                <div class="mb-3"><h3 class="font-black flex items-center gap-x-2 text-xl"><i class="fa-solid fa-skull text-red-400"></i> <span>ELIMINATED</span></h3><div class="text-xs text-slate-400">Fell off the front edge</div></div>
+                <div id="eliminated-list" class="flex-1 overflow-y-auto pr-1 space-y-1.5 text-sm custom-scroll max-h-[340px]"></div>
                 <div class="mt-auto pt-3 border-t border-slate-700">
                     <div class="text-xs text-center text-slate-400 mb-1">LAST TEAM STANDING = WORLD CUP CHAMPION</div>
-                    <div onclick="if(confirm('Reset everything?')) resetGame()" 
-                         class="cursor-pointer text-center text-xs py-1.5 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center gap-x-1">
-                        <i class="fa-solid fa-power-off"></i>
-                        <span class="font-bold">END RUN &amp; RESTART</span>
+                    <div onclick="if(confirm('Reset?')) resetGame()" class="cursor-pointer text-center text-xs py-1.5 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center gap-x-1">
+                        <i class="fa-solid fa-power-off"></i> <span class="font-bold">END RUN &amp; RESTART</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Victory Modal -->
-    <div id="victory-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[100]">
-        <div class="max-w-md w-full mx-4 bg-slate-900 border border-emerald-400 rounded-3xl p-8 text-center relative overflow-hidden">
-            <div class="text-6xl mb-1">🏆</div>
-            <div class="text-emerald-400 text-xs tracking-[4px] font-black mb-1">WORLD CUP 2026 CHAMPION</div>
-            <div id="winner-display" class="my-4"></div>
-            <p class="text-slate-300 mb-6 text-sm">47 teams pushed with real physics.<br>One champion crowned.</p>
-            <div class="flex gap-x-3 justify-center">
-                <button onclick="resetGame(); hideVictoryModal()" class="flex-1 py-3.5 font-black text-lg bg-emerald-500 hover:bg-emerald-600 transition-colors rounded-2xl text-emerald-950">PLAY AGAIN</button>
-                <button onclick="hideVictoryModal()" class="flex-1 py-3.5 font-bold border border-slate-600 hover:bg-slate-800 transition-colors rounded-2xl">CLOSE</button>
             </div>
         </div>
     </div>
@@ -181,6 +116,7 @@
         let tokens = 3200;
         let playsMade = 0;
         let gameOver = false;
+        let physicsReady = false;
 
         const ALL_TEAMS = [
             {code:"ARG",name:"Argentina",flag:"🇦🇷"},{code:"AUS",name:"Australia",flag:"🇦🇺"},{code:"AUT",name:"Austria",flag:"🇦🇹"},
@@ -220,47 +156,56 @@
             {id:8,name:"Sphynx",cost:60,desc:"Aggressive naked pusher",effect:"power"}
         ];
 
+        function updateDebug(msg) {
+            const el = document.getElementById('debug-overlay');
+            if (el) el.textContent = msg;
+        }
+
         function initPhysics() {
             canvas = document.getElementById('physics-canvas');
-            if (!canvas) { console.error('Canvas not found'); return; }
+            if (!canvas) { updateDebug("ERROR: Canvas not found"); return; }
             ctx = canvas.getContext('2d');
+
+            updateDebug("Loading Matter.js...");
 
             try {
                 engine = Engine.create();
                 world = engine.world;
-                engine.gravity.y = 0.85;
+                engine.gravity.y = 0.82;
 
                 const w = canvas.width;
                 const h = canvas.height;
 
-                Composite.add(world, Bodies.rectangle(15, h/2, 30, h, { isStatic: true, friction: 0.7 }));
-                Composite.add(world, Bodies.rectangle(w-15, h/2, 30, h, { isStatic: true, friction: 0.7 }));
-                Composite.add(world, Bodies.rectangle(w/2, 22, w-50, 26, { isStatic: true, friction: 0.7 }));
-                Composite.add(world, Bodies.rectangle(w/2, h-22, w-50, 18, { isStatic: true, friction: 0.9 }));
+                Composite.add(world, Bodies.rectangle(15, h/2, 30, h, { isStatic: true }));
+                Composite.add(world, Bodies.rectangle(w-15, h/2, 30, h, { isStatic: true }));
+                Composite.add(world, Bodies.rectangle(w/2, 20, w-50, 24, { isStatic: true }));
+                Composite.add(world, Bodies.rectangle(w/2, h-20, w-50, 16, { isStatic: true }));
 
-                pusherBody = Bodies.rectangle(w/2, h-82, w-90, 20, {
-                    isStatic: false,
-                    friction: 0.95,
-                    restitution: 0.08,
-                    density: 0.002
+                pusherBody = Bodies.rectangle(w/2, h-80, w-95, 18, {
+                    isStatic: false, friction: 0.95, restitution: 0.1, density: 0.002
                 });
                 pusherBody.isKinematic = true;
                 Composite.add(world, pusherBody);
 
-                runner = Runner.create({ isFixed: false });
+                runner = Runner.create();
                 Runner.run(runner, engine);
 
                 Events.on(engine, 'afterUpdate', checkForFallingCoins);
 
-                console.log('%c[Matter.js] Physics initialized', 'color:#4ade80');
+                physicsReady = true;
+                updateDebug("Physics ready ✓");
+                console.log("%c[Matter.js v7] Physics engine started successfully", "color:#4ade80");
+
             } catch (err) {
-                console.error('Matter.js failed:', err);
+                console.error("Matter.js init failed:", err);
+                updateDebug("PHYSICS FAILED - " + err.message);
                 if (ctx) {
-                    ctx.fillStyle = '#166534';
+                    ctx.fillStyle = "#450a0a";
                     ctx.fillRect(0,0,canvas.width,canvas.height);
-                    ctx.fillStyle = '#fff';
-                    ctx.font = '13px monospace';
-                    ctx.fillText('Physics engine failed to load. Please refresh the page.', 80, 200);
+                    ctx.fillStyle = "#fff";
+                    ctx.font = "12px monospace";
+                    ctx.fillText("Matter.js failed to initialize.", 140, 180);
+                    ctx.fillText("Check browser console (F12).", 140, 200);
                 }
             }
 
@@ -268,53 +213,62 @@
         }
 
         function createCoinBody(team, x, y) {
-            const body = Bodies.circle(x, y, 22, {
-                friction: 0.65,
-                restitution: 0.28,
-                density: 0.0018,
-                frictionAir: 0.018
+            const body = Bodies.circle(x, y, 21, {
+                friction: 0.6, restitution: 0.3, density: 0.0016, frictionAir: 0.02
             });
             body.team = team;
             return body;
         }
 
-        function spawnInitialCoins() {
-            if (!world || !canvas) return;
+        function spawnInitialCoins(force = false) {
+            if (!world || !canvas) {
+                updateDebug("Cannot spawn - no world/canvas");
+                return;
+            }
 
             visibleCoins = [];
-            const count = Math.min(20, remainingTeams.length);
+            const count = force ? 18 : Math.min(18, remainingTeams.length);
             const w = canvas.width;
             const h = canvas.height;
 
             for (let i = 0; i < count; i++) {
-                const team = remainingTeams[i];
-                const x = 90 + Math.random() * (w - 180);
-                const y = 90 + Math.random() * (h - 200);
+                const team = remainingTeams[i % remainingTeams.length];
+                const x = 85 + Math.random() * (w - 170);
+                const y = 75 + Math.random() * (h - 180);
 
                 const body = createCoinBody(team, x, y);
                 Composite.add(world, body);
                 visibleCoins.push({ body, team });
             }
 
-            remainingTeams = remainingTeams.slice(count);
+            if (!force) remainingTeams = remainingTeams.slice(count);
+            updateDebug(`Spawned ${visibleCoins.length} coins`);
+            console.log(`Spawned ${visibleCoins.length} coins`);
+        }
+
+        function forceSpawnCoins() {
+            if (!world) {
+                alert("Physics not ready yet");
+                return;
+            }
+            spawnInitialCoins(true);
+            updateUI();
         }
 
         function checkForFallingCoins() {
-            if (!canvas) return;
+            if (!canvas || visibleCoins.length === 0) return;
             const h = canvas.height;
 
             for (let i = visibleCoins.length - 1; i >= 0; i--) {
                 const coin = visibleCoins[i];
-                if (coin.body.position.y > h - 35) {
+                if (coin.body.position.y > h - 32) {
                     Composite.remove(world, coin.body);
                     eliminatedTeams.push({ ...coin.team, cat: "Physics" });
                     visibleCoins.splice(i, 1);
-
                     renderEliminatedList();
                     updateUI();
-
                     if (remainingTeams.length + visibleCoins.length === 1 && !gameOver) {
-                        setTimeout(triggerVictory, 350);
+                        setTimeout(triggerVictory, 300);
                     }
                 }
             }
@@ -327,16 +281,15 @@
             }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = '#052e16';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.strokeStyle = '#166534';
             ctx.lineWidth = 1;
-            for (let x = 35; x < canvas.width; x += 42) {
+            for (let x = 30; x < canvas.width; x += 40) {
                 ctx.beginPath();
-                ctx.moveTo(x, 35);
-                ctx.lineTo(x, canvas.height - 45);
+                ctx.moveTo(x, 30);
+                ctx.lineTo(x, canvas.height - 40);
                 ctx.stroke();
             }
 
@@ -348,28 +301,28 @@
                 ctx.translate(pos.x, pos.y);
                 ctx.rotate(angle);
 
-                ctx.fillStyle = 'rgba(0,0,0,0.35)';
+                ctx.fillStyle = 'rgba(0,0,0,0.4)';
                 ctx.beginPath();
-                ctx.ellipse(2.5, 3.5, 21, 21, 0, 0, Math.PI * 2);
+                ctx.ellipse(2, 3, 20, 20, 0, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.fillStyle = '#052e16';
                 ctx.strokeStyle = '#4ade80';
                 ctx.lineWidth = 3.5;
                 ctx.beginPath();
-                ctx.arc(0, 0, 21, 0, Math.PI * 2);
+                ctx.arc(0, 0, 20, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
                 ctx.fillStyle = '#fff';
-                ctx.font = 'bold 17px system-ui';
+                ctx.font = 'bold 16px system-ui';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(coin.team.flag, 0, -1);
 
                 ctx.fillStyle = '#4ade80';
-                ctx.font = 'bold 8.5px "Press Start 2P", system-ui';
-                ctx.fillText(coin.team.code, 0, 13);
+                ctx.font = 'bold 8px "Press Start 2P", system-ui';
+                ctx.fillText(coin.team.code, 0, 12);
 
                 ctx.restore();
             });
@@ -379,13 +332,19 @@
                 ctx.fillStyle = '#eab308';
                 ctx.strokeStyle = '#854d0e';
                 ctx.lineWidth = 4;
-                ctx.fillRect(pos.x - 275, pos.y - 10, 550, 20);
-                ctx.strokeRect(pos.x - 275, pos.y - 10, 550, 20);
+                ctx.fillRect(pos.x - 270, pos.y - 9, 540, 18);
+                ctx.strokeRect(pos.x - 270, pos.y - 9, 540, 18);
 
                 ctx.fillStyle = '#713f12';
-                ctx.font = 'bold 9px "Press Start 2P", system-ui';
+                ctx.font = 'bold 8px "Press Start 2P", system-ui';
                 ctx.textAlign = 'center';
-                ctx.fillText('PUSHER PLATFORM', pos.x, pos.y + 3);
+                ctx.fillText('PUSHER', pos.x, pos.y + 2);
+            } else {
+                ctx.fillStyle = '#854d0e';
+                ctx.fillRect(40, canvas.height - 95, canvas.width - 80, 18);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 9px monospace';
+                ctx.fillText('PUSHER (fallback)', canvas.width/2, canvas.height - 82);
             }
 
             requestAnimationFrame(renderLoop);
@@ -393,40 +352,25 @@
 
         function thrustPusher(strength = 1) {
             if (!pusherBody) return;
-            const force = 0.022 * strength;
-            Body.setVelocity(pusherBody, { x: 0, y: -force });
-
-            setTimeout(() => {
-                if (pusherBody) Body.setVelocity(pusherBody, { x: 0, y: 0 });
-            }, 380);
+            Body.setVelocity(pusherBody, { x: 0, y: -0.025 * strength });
+            setTimeout(() => { if (pusherBody) Body.setVelocity(pusherBody, { x: 0, y: 0 }); }, 350);
         }
 
         function dropPhysicalCat(cat) {
             if (!canvas || !world || gameOver) return;
 
-            const w = canvas.width;
-            const dropX = w / 2 + (Math.random() * 60 - 30);
-            const dropY = 55;
-
-            const catBody = Bodies.circle(dropX, dropY, 17, {
-                friction: 0.55,
-                restitution: 0.45,
-                density: 0.0022,
-                frictionAir: 0.012
+            const dropX = canvas.width / 2 + (Math.random() * 50 - 25);
+            const catBody = Bodies.circle(dropX, 50, 16, {
+                friction: 0.5, restitution: 0.5, density: 0.002
             });
-
             catBody.isCat = true;
             Composite.add(world, catBody);
 
             setTimeout(() => {
-                if (catBody && Composite.allBodies(world).includes(catBody)) {
-                    Composite.remove(world, catBody);
-                }
-            }, 2400);
+                if (catBody && Composite.allBodies(world).includes(catBody)) Composite.remove(world, catBody);
+            }, 2200);
 
-            setTimeout(() => {
-                thrustPusher(cat.effect === 'power' ? 1.55 : 1);
-            }, 160);
+            setTimeout(() => thrustPusher(cat.effect === 'power' ? 1.6 : 1), 140);
         }
 
         function updateUI() {
@@ -434,9 +378,6 @@
             document.getElementById('remaining-count').textContent = remainingTeams.length;
             document.getElementById('token-count').textContent = tokens.toLocaleString();
             document.getElementById('visible-count').textContent = `${visibleCoins.length} COINS`;
-            document.getElementById('pile-count').textContent = Math.max(0, remainingTeams.length);
-            
-            if (remainingTeams.length + visibleCoins.length === 1 && !gameOver) triggerVictory();
         }
 
         function renderCatShop() {
@@ -455,10 +396,10 @@
                         <div class="text-right text-xs"><span class="text-amber-400 font-bold">${cat.cost}</span> <span class="text-amber-500">TOKENS</span></div>
                     </div>
                     <div class="font-black text-base leading-none mb-0.5">${cat.name}</div>
-                    <div class="text-xs text-slate-300 mb-2 line-clamp-2">${cat.desc}</div>
+                    <div class="text-xs text-slate-300 mb-2">${cat.desc}</div>
                     <div class="flex justify-between items-center mt-auto">
                         ${badge}
-                        <button class="text-xs px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-emerald-950 font-black rounded-xl transition-colors">BUY &amp; DROP</button>
+                        <button class="text-xs px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-emerald-950 font-black rounded-xl">BUY &amp; DROP</button>
                     </div>
                 `;
                 card.onclick = () => buyAndDropCat(cat);
@@ -502,7 +443,7 @@
             const container = document.getElementById('eliminated-list');
             container.innerHTML = '';
             if (eliminatedTeams.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No teams eliminated yet.<br><span class="text-emerald-400/60">Drop physical cats!</span></div>`;
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No teams eliminated yet.<br><span class="text-emerald-400/60">Drop physical cats to start!</span></div>`;
                 return;
             }
             const rev = [...eliminatedTeams].reverse();
@@ -546,7 +487,7 @@
         }
 
         function initGame() {
-            remainingTeams = shuffle([...ALL_TEAMS]);
+            remainingTeams = [...ALL_TEAMS].sort(() => Math.random() - 0.5);
             eliminatedTeams = [];
             tokens = 3200;
             playsMade = 0;
@@ -564,22 +505,34 @@
             }
 
             setTimeout(() => {
-                spawnInitialCoins();
+                if (visibleCoins.length === 0) {
+                    spawnInitialCoins();
+                }
                 updateUI();
-            }, 120);
+                updateDebug(physicsReady ? `Ready - ${visibleCoins.length} coins` : "Physics not ready");
+            }, 250);
         }
 
         function initializeEverything() {
+            console.log("%c[CatCoin Pusher v7] Starting debug version...", "color:#4ade80");
             initGame();
+
+            setTimeout(() => {
+                if (visibleCoins.length === 0 && world) {
+                    console.warn("Safety spawn triggered");
+                    spawnInitialCoins(true);
+                    updateUI();
+                }
+            }, 1500);
+
             document.addEventListener('keydown', e => {
-                if ((e.key === '?' || e.key === '/') && document.activeElement.tagName === 'BODY') {
+                if (e.key === '?' || e.key === '/') {
                     e.preventDefault();
                     document.getElementById('cat-shop').scrollIntoView({behavior:'smooth'});
                 }
             });
-            console.log('%c[CatCoin Pusher v6] Fixed physics version ready.', 'color:#4ade80');
         }
-        
+
         window.onload = initializeEverything;
     </script>
 </body>
