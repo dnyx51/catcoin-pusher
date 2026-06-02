@@ -9,10 +9,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
         
-        :root {
-            --primary: #16a34a;
-        }
-        
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
         }
@@ -31,86 +27,78 @@
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3),
                         inset 0 2px 0 #fef08c,
                         inset 0 -2px 0 #854d0e;
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.15s linear;
+            animation: pusherOscillate 3.2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pusherOscillate {
+            from { transform: translateX(-14px); }
+            to { transform: translateX(14px); }
+        }
+        
+        .pusher-thrust {
+            animation: pusherThrust 650ms cubic-bezier(0.23, 1.0, 0.32, 1) !important;
+        }
+        
+        @keyframes pusherThrust {
+            0% { transform: translateX(0) scaleY(1); }
+            15% { transform: translateX(22px) scaleY(0.92); }
+            35% { transform: translateX(-4px) scaleY(1.05); }
+            55% { transform: translateX(8px) scaleY(0.96); }
+            75% { transform: translateX(-2px) scaleY(1.02); }
+            100% { transform: translateX(0) scaleY(1); }
         }
         
         .team-coin {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.2s ease;
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3),
                         0 4px 6px -4px rgb(0 0 0 / 0.3),
-                        inset 0 2px 0 rgba(255,255,255,0.3);
+                        inset 0 2px 0 rgba(255,255,255,0.25);
         }
         
-        .team-coin:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+        .team-coin.jostle {
+            animation: coinJostle 420ms ease-out;
+        }
+        
+        @keyframes coinJostle {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            20% { transform: translateX(6px) rotate(4deg); }
+            40% { transform: translateX(-5px) rotate(-3deg); }
+            60% { transform: translateX(3px) rotate(2deg); }
+            80% { transform: translateX(-2px) rotate(-1deg); }
+        }
+        
+        .cat-pixel {
+            image-rendering: pixelated;
+            filter: drop-shadow(0 3px 2px rgb(0 0 0 / 0.3));
         }
         
         .cat-coin {
-            animation: catDrop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.3));
+            animation: catDrop 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.35));
         }
         
         @keyframes catDrop {
-            0% {
-                transform: translateY(-180px) rotate(-25deg) scale(0.6);
-                opacity: 0;
-            }
-            40% {
-                transform: translateY(20px) rotate(8deg) scale(1.1);
-                opacity: 1;
-            }
-            55% {
-                transform: translateY(-15px) rotate(-4deg) scale(0.95);
-            }
-            70% {
-                transform: translateY(5px) rotate(2deg) scale(1);
-            }
-            100% {
-                transform: translateY(0) rotate(0deg) scale(1);
-            }
+            0% { transform: translateY(-160px) rotate(-30deg) scale(0.5); opacity: 0; }
+            35% { transform: translateY(18px) rotate(6deg) scale(1.15); opacity: 1; }
+            50% { transform: translateY(-8px) rotate(-3deg) scale(0.95); }
+            65% { transform: translateY(3px) rotate(1deg) scale(1); }
+            100% { transform: translateY(0) rotate(0deg) scale(1); }
         }
         
-        .push-animation {
-            animation: pushWave 0.7s ease-out forwards;
-        }
-        
-        @keyframes pushWave {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(12px); }
-            50% { transform: translateX(-6px); }
-            75% { transform: translateX(4px); }
-            100% { transform: translateX(0); }
-        }
-        
-        .fall-off {
-            animation: fallOffEdge 0.8s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
-            z-index: 50;
-        }
-        
-        @keyframes fallOffEdge {
-            0% {
-                transform: translateX(0) translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            40% {
-                transform: translateX(80px) translateY(30px) rotate(25deg);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateX(220px) translateY(120px) rotate(65deg);
-                opacity: 0;
-            }
+        .push-wave {
+            animation: pushWave 520ms ease-out;
         }
         
         .machine-glass {
             background: linear-gradient(
                 to bottom,
-                rgba(255,255,255,0.08) 0%,
-                rgba(255,255,255,0.02) 30%,
-                rgba(0,0,0,0.15) 70%
+                rgba(255,255,255,0.07) 0%,
+                rgba(255,255,255,0.015) 35%,
+                rgba(0,0,0,0.2) 75%
             );
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.4);
+            box-shadow: inset 0 0 70px rgba(0,0,0,0.45);
         }
         
         .team-card {
@@ -123,18 +111,6 @@
             text-shadow: 3px 3px 0 #052e16;
         }
         
-        .coin-stack {
-            background-image: 
-                linear-gradient(#166534 1px, transparent 1px),
-                linear-gradient(90deg, #166534 1px, transparent 1px);
-            background-size: 18px 18px;
-            opacity: 0.15;
-        }
-        
-        .eliminated-item {
-            transition: all 0.2s ease;
-        }
-        
         .stat-value {
             font-family: "Press Start 2P", system-ui;
         }
@@ -144,13 +120,19 @@
         }
         
         .cat-btn:active {
-            transform: scale(0.95) translateY(2px);
+            transform: scale(0.96) translateY(1px);
         }
         
         .worldcup-bg {
-            background-image: url('data:image/svg+xml,%3Csvg width=%22600%22 height=%22600%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cdefs%3E%3Cpattern id=%22soccer%22 patternUnits=%22userSpaceOnUse%22 width=%2260%22 height=%2260%22%3E%3Cpath d=%22M30 5 L55 20 L55 45 L30 55 L5 45 L5 20 Z%22 fill=%22none%22 stroke=%22%23166b34%22 stroke-width=%221.5%22/%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%228%22 fill=%22none%22 stroke=%22%23166b34%22 stroke-width=%221%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%22600%22 height=%22600%22 fill=%22url(%23soccer)%22/%3E%3C/svg%27');
-            background-size: 120px 120px;
-            opacity: 0.06;
+            background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23166b34%22 fill-opacity=%220.08%22 d=%22M30 5 L55 20 L55 45 L30 55 L5 45 L5 20 Z M30 12 L48 22 L48 42 L30 50 L12 42 L12 22 Z%22/%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%227%22 fill=%22none%22 stroke=%22%23166b34%22 stroke-opacity=%220.12%22 stroke-width=%221.5%22/%3E%3C/g%3E%3C/svg%27');
+            background-size: 95px 95px;
+            opacity: 0.5;
+        }
+        
+        .pixel-cat {
+            width: 52px;
+            height: 52px;
+            image-rendering: crisp-edges;
         }
     </style>
 </head>
@@ -164,7 +146,7 @@
                 </div>
                 <div>
                     <h1 class="text-4xl font-black tracking-tighter arcade-text">CATCOIN PUSHER</h1>
-                    <p class="text-emerald-400 text-sm font-bold tracking-[3px]">WORLD CUP 2026 ELIMINATOR</p>
+                    <p class="text-emerald-400 text-sm font-bold tracking-[3px]">WORLD CUP 2026 ELIMINATOR • FOFA ARCADE</p>
                 </div>
             </div>
             
@@ -201,7 +183,7 @@
                             <i class="fa-solid fa-store text-emerald-400"></i> 
                             <span>CAT COIN SHOP</span>
                         </h3>
-                        <p class="text-xs text-slate-400">Buy cats to activate the pusher</p>
+                        <p class="text-xs text-slate-400">Pixel art headshots • Buy to push</p>
                     </div>
                 </div>
                 
@@ -210,7 +192,7 @@
                 </div>
                 
                 <div class="mt-3 px-1 text-[10px] text-center text-slate-500">
-                    Different cats = different push personalities
+                    Each cat has unique push personality
                 </div>
             </div>
             
@@ -244,7 +226,6 @@
                         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-24 flex items-center justify-center z-30 pointer-events-none">
                             <div id="drop-zone" 
                                  class="w-16 h-16 border-2 border-dashed border-emerald-400/60 rounded-full flex items-center justify-center text-4xl transition-all">
-                                <!-- Cat lands here -->
                             </div>
                         </div>
                         
@@ -260,14 +241,14 @@
                             </div>
                         </div>
                         
-                        <!-- PUSHER BAR -->
+                        <!-- PUSHER BAR (now with realistic continuous motion) -->
                         <div class="absolute bottom-[78px] left-0 right-0 px-4 z-10">
                             <div id="pusher-bar"
                                  class="h-7 w-full rounded-xl pusher-bar flex items-center justify-center cursor-pointer"
                                  onclick="manualPush()">
                                 <div class="flex items-center gap-x-1.5 text-[#713f12] text-xs font-black tracking-widest">
                                     <i class="fa-solid fa-arrow-left"></i>
-                                    <span>PUSHER</span>
+                                    <span>PUSHER PLATFORM</span>
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </div>
                             </div>
@@ -285,19 +266,18 @@
                         </div>
                         
                         <!-- Machine Label -->
-                        <div class="absolute bottom-1.5 right-4 text-[9px] text-emerald-400/40 font-mono tracking-widest">CATCOIN v1.0</div>
+                        <div class="absolute bottom-1.5 right-4 text-[9px] text-emerald-400/40 font-mono tracking-widest">CATCOIN v2 • PIXEL</div>
                     </div>
                     
                     <!-- Eliminated Chute -->
                     <div class="absolute -right-1 top-16 bottom-16 w-14 bg-gradient-to-b from-red-950/90 to-red-900/80 border-l-4 border-red-700 rounded-l-3xl flex flex-col items-center pt-3 z-40">
                         <div class="text-red-400 text-[9px] font-black tracking-widest -rotate-90 origin-center whitespace-nowrap mt-5">ELIMINATED</div>
                         <div id="chute-preview" class="flex-1 flex flex-col items-center justify-end gap-y-1 pb-4">
-                            <!-- Last eliminated preview icons -->
                         </div>
                     </div>
                 </div>
                 
-                <!-- Controls under machine -->
+                <!-- Controls -->
                 <div class="flex items-center justify-center gap-x-3 mt-3">
                     <button onclick="simulateFastEliminations(5)"
                             class="px-5 py-2 text-sm font-bold flex items-center gap-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl transition-colors">
@@ -313,24 +293,23 @@
                 </div>
             </div>
             
-            <!-- RIGHT: ELIMINATED + INFO -->
+            <!-- RIGHT: ELIMINATED -->
             <div class="lg:col-span-3 bg-slate-900 border border-slate-700 rounded-3xl p-4 flex flex-col">
                 <div class="mb-3">
                     <h3 class="font-black flex items-center gap-x-2 text-xl">
                         <i class="fa-solid fa-skull text-red-400"></i> 
                         <span>ELIMINATED</span>
                     </h3>
-                    <div class="text-xs text-slate-400">Pushed off the edge by cats</div>
+                    <div class="text-xs text-slate-400">Pushed off by cat coins</div>
                 </div>
                 
                 <div id="eliminated-list" 
                      class="flex-1 overflow-y-auto pr-1 space-y-1.5 text-sm custom-scroll max-h-[340px]">
-                    <!-- Populated by JS -->
                 </div>
                 
                 <div class="mt-auto pt-3 border-t border-slate-700">
-                    <div class="text-xs text-center text-slate-400 mb-1">THE LAST TEAM STANDING WINS THE WORLD CUP</div>
-                    <div onclick="if(confirm('Really reset the entire game?')) resetGame()" 
+                    <div class="text-xs text-center text-slate-400 mb-1">LAST TEAM STANDING = WORLD CUP CHAMPION</div>
+                    <div onclick="if(confirm('Reset the entire run?')) resetGame()" 
                          class="cursor-pointer text-center text-xs py-1.5 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center gap-x-1">
                         <i class="fa-solid fa-power-off"></i>
                         <span class="font-bold">END RUN &amp; RESTART</span>
@@ -340,11 +319,8 @@
             
         </div>
         
-        <!-- Bottom hint -->
-        <div class="text-center mt-4 text-xs text-slate-500 flex items-center justify-center gap-x-2">
-            <span>Click any cat in the shop to buy &amp; drop a coin into the pusher.</span>
-            <span class="hidden lg:inline">•</span>
-            <span class="hidden lg:inline">Edge teams are more likely to be eliminated.</span>
+        <div class="text-center mt-4 text-xs text-slate-500">
+            The pusher platform moves continuously • Drop cats to trigger powerful forward thrusts
         </div>
     </div>
 
@@ -356,11 +332,9 @@
             <div class="text-6xl mb-1">🏆</div>
             <div class="text-emerald-400 text-xs tracking-[4px] font-black mb-1">WORLD CUP 2026 CHAMPION</div>
             
-            <div id="winner-display" class="my-4">
-                <!-- Populated dynamically -->
-            </div>
+            <div id="winner-display" class="my-4"></div>
             
-            <p class="text-slate-300 mb-6 text-sm">Your cat coins have decided the fate of the tournament.<br>47 teams pushed. One champion crowned.</p>
+            <p class="text-slate-300 mb-6 text-sm">47 teams eliminated by your cats.<br>One champion remains.</p>
             
             <div class="flex gap-x-3 justify-center">
                 <button onclick="resetGame(); hideVictoryModal()"
@@ -378,132 +352,153 @@
     <script>
         // ==================== GAME DATA ====================
         const ALL_TEAMS = [
-            { code: "ARG", name: "Argentina", flag: "🇦🇷" },
-            { code: "AUS", name: "Australia", flag: "🇦🇺" },
-            { code: "AUT", name: "Austria", flag: "🇦🇹" },
-            { code: "BEL", name: "Belgium", flag: "🇧🇪" },
-            { code: "BIH", name: "Bosnia & Herzegovina", flag: "🇧🇦" },
-            { code: "BRA", name: "Brazil", flag: "🇧🇷" },
-            { code: "CPV", name: "Cabo Verde", flag: "🇨🇻" },
-            { code: "CAN", name: "Canada", flag: "🇨🇦" },
-            { code: "COL", name: "Colombia", flag: "🇨🇴" },
-            { code: "CRO", name: "Croatia", flag: "🇭🇷" },
-            { code: "CUW", name: "Curaçao", flag: "🇨🇼" },
-            { code: "CZE", name: "Czechia", flag: "🇨🇿" },
-            { code: "COD", name: "DR Congo", flag: "🇨🇩" },
-            { code: "ECU", name: "Ecuador", flag: "🇪🇨" },
-            { code: "EGY", name: "Egypt", flag: "🇪🇬" },
-            { code: "ENG", name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
-            { code: "FRA", name: "France", flag: "🇫🇷" },
-            { code: "GER", name: "Germany", flag: "🇩🇪" },
-            { code: "GHA", name: "Ghana", flag: "🇬🇭" },
-            { code: "HTI", name: "Haiti", flag: "🇭🇹" },
-            { code: "IRN", name: "Iran", flag: "🇮🇷" },
-            { code: "IRQ", name: "Iraq", flag: "🇮🇶" },
-            { code: "CIV", name: "Ivory Coast", flag: "🇨🇮" },
-            { code: "JPN", name: "Japan", flag: "🇯🇵" },
-            { code: "JOR", name: "Jordan", flag: "🇯🇴" },
-            { code: "MEX", name: "Mexico", flag: "🇲🇽" },
-            { code: "MAR", name: "Morocco", flag: "🇲🇦" },
-            { code: "NLD", name: "Netherlands", flag: "🇳🇱" },
-            { code: "NZL", name: "New Zealand", flag: "🇳🇿" },
-            { code: "NOR", name: "Norway", flag: "🇳🇴" },
-            { code: "PAN", name: "Panama", flag: "🇵🇦" },
-            { code: "PRY", name: "Paraguay", flag: "🇵🇾" },
-            { code: "PRT", name: "Portugal", flag: "🇵🇹" },
-            { code: "QAT", name: "Qatar", flag: "🇶🇦" },
-            { code: "SAU", name: "Saudi Arabia", flag: "🇸🇦" },
-            { code: "SCO", name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿" },
-            { code: "SEN", name: "Senegal", flag: "🇸🇳" },
-            { code: "ZAF", name: "South Africa", flag: "🇿🇦" },
-            { code: "KOR", name: "South Korea", flag: "🇰🇷" },
-            { code: "ESP", name: "Spain", flag: "🇪🇸" },
-            { code: "SWE", name: "Sweden", flag: "🇸🇪" },
-            { code: "CHE", name: "Switzerland", flag: "🇨🇭" },
-            { code: "TUN", name: "Tunisia", flag: "🇹🇳" },
-            { code: "TUR", name: "Türkiye", flag: "🇹🇷" },
-            { code: "USA", name: "United States", flag: "🇺🇸" },
-            { code: "URY", name: "Uruguay", flag: "🇺🇾" },
-            { code: "UZB", name: "Uzbekistan", flag: "🇺🇿" },
-            { code: "DZA", name: "Algeria", flag: "🇩🇿" }
+            { code: "ARG", name: "Argentina", flag: "🇦🇷" }, { code: "AUS", name: "Australia", flag: "🇦🇺" },
+            { code: "AUT", name: "Austria", flag: "🇦🇹" }, { code: "BEL", name: "Belgium", flag: "🇧🇪" },
+            { code: "BIH", name: "Bosnia & Herzegovina", flag: "🇧🇦" }, { code: "BRA", name: "Brazil", flag: "🇧🇷" },
+            { code: "CPV", name: "Cabo Verde", flag: "🇨🇻" }, { code: "CAN", name: "Canada", flag: "🇨🇦" },
+            { code: "COL", name: "Colombia", flag: "🇨🇴" }, { code: "CRO", name: "Croatia", flag: "🇭🇷" },
+            { code: "CUW", name: "Curaçao", flag: "🇨🇼" }, { code: "CZE", name: "Czechia", flag: "🇨🇿" },
+            { code: "COD", name: "DR Congo", flag: "🇨🇩" }, { code: "ECU", name: "Ecuador", flag: "🇪🇨" },
+            { code: "EGY", name: "Egypt", flag: "🇪🇬" }, { code: "ENG", name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+            { code: "FRA", name: "France", flag: "🇫🇷" }, { code: "GER", name: "Germany", flag: "🇩🇪" },
+            { code: "GHA", name: "Ghana", flag: "🇬🇭" }, { code: "HTI", name: "Haiti", flag: "🇭🇹" },
+            { code: "IRN", name: "Iran", flag: "🇮🇷" }, { code: "IRQ", name: "Iraq", flag: "🇮🇶" },
+            { code: "CIV", name: "Ivory Coast", flag: "🇨🇮" }, { code: "JPN", name: "Japan", flag: "🇯🇵" },
+            { code: "JOR", name: "Jordan", flag: "🇯🇴" }, { code: "MEX", name: "Mexico", flag: "🇲🇽" },
+            { code: "MAR", name: "Morocco", flag: "🇲🇦" }, { code: "NLD", name: "Netherlands", flag: "🇳🇱" },
+            { code: "NZL", name: "New Zealand", flag: "🇳🇿" }, { code: "NOR", name: "Norway", flag: "🇳🇴" },
+            { code: "PAN", name: "Panama", flag: "🇵🇦" }, { code: "PRY", name: "Paraguay", flag: "🇵🇾" },
+            { code: "PRT", name: "Portugal", flag: "🇵🇹" }, { code: "QAT", name: "Qatar", flag: "🇶🇦" },
+            { code: "SAU", name: "Saudi Arabia", flag: "🇸🇦" }, { code: "SCO", name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿" },
+            { code: "SEN", name: "Senegal", flag: "🇸🇳" }, { code: "ZAF", name: "South Africa", flag: "🇿🇦" },
+            { code: "KOR", name: "South Korea", flag: "🇰🇷" }, { code: "ESP", name: "Spain", flag: "🇪🇸" },
+            { code: "SWE", name: "Sweden", flag: "🇸🇪" }, { code: "CHE", name: "Switzerland", flag: "🇨🇭" },
+            { code: "TUN", name: "Tunisia", flag: "🇹🇳" }, { code: "TUR", name: "Türkiye", flag: "🇹🇷" },
+            { code: "USA", name: "United States", flag: "🇺🇸" }, { code: "URY", name: "Uruguay", flag: "🇺🇾" },
+            { code: "UZB", name: "Uzbekistan", flag: "🇺🇿" }, { code: "DZA", name: "Algeria", flag: "🇩🇿" }
         ];
+
+        function getPixelCatSVG(breedId) {
+            const svgs = {
+                1: `<!-- Ragdoll - Fluffy cheeks + blue eyes -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="8" y="10" width="36" height="32" rx="4" fill="#f8e8d8"/>
+                    <rect x="6" y="8" width="12" height="14" fill="#f8e8d8"/>
+                    <rect x="34" y="8" width="12" height="14" fill="#f8e8d8"/>
+                    <rect x="10" y="14" width="8" height="6" fill="#f4d9c0"/>
+                    <rect x="34" y="14" width="8" height="6" fill="#f4d9c0"/>
+                    <rect x="18" y="18" width="6" height="6" fill="#3b82f6"/>
+                    <rect x="28" y="18" width="6" height="6" fill="#3b82f6"/>
+                    <rect x="20" y="20" width="2" height="2" fill="#1e40af"/>
+                    <rect x="30" y="20" width="2" height="2" fill="#1e40af"/>
+                    <rect x="16" y="28" width="20" height="4" fill="#e8d4b8"/>
+                    <rect x="12" y="32" width="28" height="4" fill="#d1b38a"/>
+                </svg>`,
+                
+                2: `<!-- Maine Coon - Big tufted ears + wild look -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="8" y="12" width="36" height="30" rx="3" fill="#3f2a1f"/>
+                    <rect x="4" y="6" width="10" height="16" fill="#3f2a1f"/>
+                    <rect x="38" y="6" width="10" height="16" fill="#3f2a1f"/>
+                    <rect x="6" y="8" width="6" height="6" fill="#5c4033"/>
+                    <rect x="40" y="8" width="6" height="6" fill="#5c4033"/>
+                    <rect x="16" y="20" width="6" height="6" fill="#f59e0b"/>
+                    <rect x="30" y="20" width="6" height="6" fill="#f59e0b"/>
+                    <rect x="18" y="22" width="2" height="2" fill="#000"/>
+                    <rect x="32" y="22" width="2" height="2" fill="#000"/>
+                    <rect x="14" y="30" width="24" height="3" fill="#5c4033"/>
+                    <rect x="10" y="34" width="32" height="4" fill="#4a2f1f"/>
+                </svg>`,
+                
+                3: `<!-- British Shorthair - Round face + grumpy eyes -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="8" y="10" width="36" height="32" rx="8" fill="#94a3b8"/>
+                    <rect x="14" y="18" width="8" height="6" fill="#475569"/>
+                    <rect x="30" y="18" width="8" height="6" fill="#475569"/>
+                    <rect x="16" y="20" width="4" height="2" fill="#e2e8f0"/>
+                    <rect x="32" y="20" width="4" height="2" fill="#e2e8f0"/>
+                    <rect x="20" y="28" width="12" height="3" fill="#64748b"/>
+                    <rect x="12" y="34" width="28" height="4" fill="#64748b"/>
+                </svg>`,
+                
+                4: `<!-- Bengal - Spotted + intense eyes -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="8" y="10" width="36" height="32" rx="3" fill="#d97706"/>
+                    <rect x="12" y="16" width="4" height="4" fill="#854d0e"/>
+                    <rect x="20" y="14" width="4" height="4" fill="#854d0e"/>
+                    <rect x="28" y="16" width="4" height="4" fill="#854d0e"/>
+                    <rect x="36" y="14" width="4" height="4" fill="#854d0e"/>
+                    <rect x="16" y="22" width="6" height="6" fill="#fef08c"/>
+                    <rect x="30" y="22" width="6" height="6" fill="#fef08c"/>
+                    <rect x="18" y="24" width="2" height="2" fill="#000"/>
+                    <rect x="32" y="24" width="2" height="2" fill="#000"/>
+                    <rect x="14" y="32" width="24" height="4" fill="#b45309"/>
+                </svg>`,
+                
+                5: `<!-- Siamese - Pointed face + blue eyes -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="10" y="10" width="32" height="32" rx="4" fill="#f8fafc"/>
+                    <rect x="8" y="8" width="10" height="12" fill="#64748b"/>
+                    <rect x="34" y="8" width="10" height="12" fill="#64748b"/>
+                    <rect x="16" y="20" width="6" height="6" fill="#0ea5e9"/>
+                    <rect x="30" y="20" width="6" height="6" fill="#0ea5e9"/>
+                    <rect x="18" y="22" width="2" height="2" fill="#000"/>
+                    <rect x="32" y="22" width="2" height="2" fill="#000"/>
+                    <rect x="14" y="32" width="24" height="4" fill="#e2e8f0"/>
+                    <rect x="18" y="36" width="16" height="3" fill="#94a3b8"/>
+                </svg>`,
+                
+                6: `<!-- Persian - Flat face + long fur -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="6" y="12" width="40" height="28" rx="6" fill="#e8d5c4"/>
+                    <rect x="12" y="16" width="8" height="6" fill="#d4b89e"/>
+                    <rect x="32" y="16" width="8" height="6" fill="#d4b89e"/>
+                    <rect x="16" y="22" width="6" height="5" fill="#854d0e"/>
+                    <rect x="30" y="22" width="6" height="5" fill="#854d0e"/>
+                    <rect x="18" y="24" width="2" height="2" fill="#000"/>
+                    <rect x="32" y="24" width="2" height="2" fill="#000"/>
+                    <rect x="10" y="32" width="32" height="5" fill="#d1b38a"/>
+                </svg>`,
+                
+                7: `<!-- Scottish Fold - Folded ears + round -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="8" y="10" width="36" height="32" rx="10" fill="#64748b"/>
+                    <rect x="10" y="8" width="10" height="8" fill="#475569"/>
+                    <rect x="32" y="8" width="10" height="8" fill="#475569"/>
+                    <rect x="14" y="20" width="6" height="6" fill="#e2e8f0"/>
+                    <rect x="32" y="20" width="6" height="6" fill="#e2e8f0"/>
+                    <rect x="16" y="22" width="2" height="2" fill="#1e2937"/>
+                    <rect x="34" y="22" width="2" height="2" fill="#1e2937"/>
+                    <rect x="14" y="30" width="24" height="4" fill="#475569"/>
+                </svg>`,
+                
+                8: `<!-- Sphynx - Wrinkled + big ears -->
+                <svg width="52" height="52" viewBox="0 0 52 52" class="pixel-cat">
+                    <rect x="10" y="10" width="32" height="32" rx="4" fill="#f4d9c0"/>
+                    <rect x="6" y="6" width="12" height="14" fill="#e8c9a8"/>
+                    <rect x="34" y="6" width="12" height="14" fill="#e8c9a8"/>
+                    <rect x="14" y="18" width="6" height="6" fill="#854d0e"/>
+                    <rect x="32" y="18" width="6" height="6" fill="#854d0e"/>
+                    <rect x="16" y="20" width="2" height="2" fill="#000"/>
+                    <rect x="34" y="20" width="2" height="2" fill="#000"/>
+                    <rect x="12" y="28" width="28" height="4" fill="#d4b89e"/>
+                    <rect x="16" y="34" width="20" height="3" fill="#c9a37a"/>
+                </svg>`
+            };
+            return svgs[breedId] || svgs[1];
+        }
 
         const CAT_BREEDS = [
-            {
-                id: 1,
-                name: "Ragdoll",
-                emoji: "🐈",
-                cost: 25,
-                desc: "Gentle giant. Your floofy favorite.",
-                effect: "normal",
-                color: "#f9a8d4"
-            },
-            {
-                id: 2,
-                name: "Maine Coon",
-                emoji: "🐈‍⬛",
-                cost: 50,
-                desc: "Big paws, powerful push. Can eliminate 2!",
-                effect: "power",
-                color: "#854d0e"
-            },
-            {
-                id: 3,
-                name: "British Shorthair",
-                emoji: "🐈",
-                cost: 30,
-                desc: "Classic & reliable. Always fair.",
-                effect: "normal",
-                color: "#64748b"
-            },
-            {
-                id: 4,
-                name: "Bengal",
-                emoji: "🔆",
-                cost: 55,
-                desc: "Wild & unpredictable. High energy pushes.",
-                effect: "power",
-                color: "#b45309"
-            },
-            {
-                id: 5,
-                name: "Siamese",
-                emoji: "🐈",
-                cost: 35,
-                desc: "Chatty cat. Very precise eliminations.",
-                effect: "normal",
-                color: "#c026d3"
-            },
-            {
-                id: 6,
-                name: "Persian",
-                emoji: "🐈",
-                cost: 45,
-                desc: "Regal. Protects underdogs slightly.",
-                effect: "normal",
-                color: "#854d0e"
-            },
-            {
-                id: 7,
-                name: "Scottish Fold",
-                emoji: "🐈",
-                cost: 40,
-                desc: "Wise ears. Balanced & thoughtful.",
-                effect: "normal",
-                color: "#4b5563"
-            },
-            {
-                id: 8,
-                name: "Sphynx",
-                emoji: "🐈",
-                cost: 60,
-                desc: "Naked truth. Aggressive pusher.",
-                effect: "power",
-                color: "#9f1239"
-            }
+            { id: 1, name: "Ragdoll", cost: 25, desc: "Gentle giant • Fluffy & fair", effect: "normal", color: "#f9a8d4" },
+            { id: 2, name: "Maine Coon", cost: 50, desc: "Big paws • Can eliminate 2!", effect: "power", color: "#854d0e" },
+            { id: 3, name: "British Shorthair", cost: 30, desc: "Classic & reliable", effect: "normal", color: "#64748b" },
+            { id: 4, name: "Bengal", cost: 55, desc: "Wild & spotted • High energy", effect: "power", color: "#b45309" },
+            { id: 5, name: "Siamese", cost: 35, desc: "Precise & chatty", effect: "normal", color: "#c026d3" },
+            { id: 6, name: "Persian", cost: 45, desc: "Regal • Protects underdogs", effect: "normal", color: "#854d0e" },
+            { id: 7, name: "Scottish Fold", cost: 40, desc: "Wise & balanced", effect: "normal", color: "#4b5563" },
+            { id: 8, name: "Sphynx", cost: 60, desc: "Aggressive naked pusher", effect: "power", color: "#9f1239" }
         ];
 
-        // ==================== GAME STATE ====================
         let remainingTeams = [];
         let eliminatedTeams = [];
         let tokens = 3200;
@@ -511,88 +506,50 @@
         let playsMade = 0;
         let gameOver = false;
 
-        // ==================== AUDIO ====================
         let audioContext;
-        
+
         function initAudio() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            } catch (e) {}
+            try { audioContext = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
         }
         
         function playSound(type) {
             if (!audioContext) return;
-            
-            const oscillator = audioContext.createOscillator();
+            const osc = audioContext.createOscillator();
             const gain = audioContext.createGain();
             const filter = audioContext.createBiquadFilter();
             
-            oscillator.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioContext.destination);
+            osc.connect(filter); filter.connect(gain); gain.connect(audioContext.destination);
             
             if (type === 'drop') {
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.value = 420;
-                filter.type = 'lowpass';
-                filter.frequency.value = 800;
-                gain.gain.value = 0.18;
-                
-                setTimeout(() => {
-                    oscillator.frequency.exponentialRampToValueAtTime(180, audioContext.currentTime + 0.6);
-                }, 80);
-                
-                setTimeout(() => {
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.7);
-                }, 120);
-                
+                osc.type = 'sawtooth'; osc.frequency.value = 380;
+                filter.type = 'lowpass'; filter.frequency.value = 900;
+                gain.gain.value = 0.16;
+                setTimeout(() => osc.frequency.exponentialRampToValueAtTime(160, audioContext.currentTime + 0.55), 70);
             } else if (type === 'elim') {
-                oscillator.type = 'square';
-                oscillator.frequency.value = 680;
-                gain.gain.value = 0.12;
-                filter.type = 'bandpass';
-                filter.frequency.value = 1200;
-                
-                setTimeout(() => {
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
-                }, 60);
+                osc.type = 'square'; osc.frequency.value = 720;
+                gain.gain.value = 0.11; filter.type = 'bandpass'; filter.frequency.value = 1400;
             } else if (type === 'power') {
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.value = 280;
-                gain.gain.value = 0.22;
-                
-                setTimeout(() => {
-                    oscillator.frequency.value = 520;
-                }, 180);
-                
-                setTimeout(() => {
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.6);
-                }, 220);
+                osc.type = 'sawtooth'; osc.frequency.value = 260;
+                gain.gain.value = 0.2;
+                setTimeout(() => osc.frequency.value = 480, 160);
             } else if (type === 'win') {
-                oscillator.type = 'sine';
-                oscillator.frequency.value = 880;
-                gain.gain.value = 0.25;
-                setTimeout(() => { oscillator.frequency.value = 1100; }, 180);
-                setTimeout(() => { gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.2); }, 300);
+                osc.type = 'sine'; osc.frequency.value = 920;
+                gain.gain.value = 0.22;
+                setTimeout(() => osc.frequency.value = 1180, 170);
             }
-            
-            oscillator.start();
-            
-            setTimeout(() => {
-                oscillator.stop();
-            }, 1200);
+            osc.start();
+            setTimeout(() => { gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.6); osc.stop(); }, 650);
         }
 
-        // ==================== CORE FUNCTIONS ====================
-        function shuffleArray(array) {
-            const newArr = [...array];
-            for (let i = newArr.length - 1; i > 0; i--) {
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+                [a[i], a[j]] = [a[j], a[i]];
             }
-            return newArr;
+            return a;
         }
-        
+
         function initGame() {
             remainingTeams = shuffleArray([...ALL_TEAMS]);
             eliminatedTeams = [];
@@ -606,105 +563,88 @@
             refreshLedge();
             renderEliminatedList();
             updatePileCount();
-            
-            console.log('%c[CatCoin Pusher] Game initialized with 48 World Cup teams.', 'color:#166534');
         }
-        
+
         function updateUI() {
             document.getElementById('elim-count').textContent = `${playsMade} / 47`;
             document.getElementById('remaining-count').textContent = remainingTeams.length;
             document.getElementById('token-count').textContent = tokens.toLocaleString();
             
-            if (remainingTeams.length === 1 && !gameOver) {
-                triggerVictory();
-            }
+            if (remainingTeams.length === 1 && !gameOver) triggerVictory();
         }
-        
+
         function updatePileCount() {
-            const pileEl = document.getElementById('pile-count');
-            const buried = Math.max(0, remainingTeams.length - ledgeTeams.length);
-            pileEl.textContent = buried;
+            document.getElementById('pile-count').textContent = Math.max(0, remainingTeams.length - ledgeTeams.length);
         }
-        
+
         function refreshLedge() {
-            if (remainingTeams.length === 0) return;
-            
+            if (!remainingTeams.length) return;
             const shuffled = shuffleArray([...remainingTeams]);
             ledgeTeams = shuffled.slice(0, Math.min(8, remainingTeams.length));
-            
             renderLedge();
         }
-        
+
         function renderLedge() {
             const container = document.getElementById('ledge-area');
             container.innerHTML = '';
             
-            if (ledgeTeams.length === 0) {
-                container.innerHTML = `<div class="text-center text-emerald-400/60 text-xs py-6 w-full">No teams left on the edge...</div>`;
+            if (!ledgeTeams.length) {
+                container.innerHTML = `<div class="text-center text-emerald-400/60 text-xs py-6 w-full">No teams on the edge...</div>`;
                 return;
             }
             
             ledgeTeams.forEach(team => {
                 const card = document.createElement('div');
-                card.className = `team-coin team-card flex-shrink-0 w-[78px] h-[78px] rounded-2xl flex flex-col items-center justify-center cursor-default border-emerald-600 relative overflow-hidden`;
+                card.className = `team-coin team-card flex-shrink-0 w-[78px] h-[78px] rounded-2xl flex flex-col items-center justify-center border-emerald-600 relative overflow-hidden`;
                 card.setAttribute('data-code', team.code);
                 
                 card.innerHTML = `
                     <div class="text-4xl mb-0.5 drop-shadow-md">${team.flag}</div>
                     <div class="text-[10px] font-black tracking-wider text-emerald-300">${team.code}</div>
-                    <div class="text-[9px] text-emerald-400/70 text-center leading-none px-1 line-clamp-1">${team.name.split(' ')[0]}</div>
+                    <div class="text-[9px] text-emerald-400/70 text-center leading-none px-1">${team.name.split(' ')[0]}</div>
                 `;
-                
-                card.style.boxShadow = '0 0 0 1px #166534, inset 0 1px 0 rgba(163, 163, 172, 0.15)';
-                
+                card.style.boxShadow = '0 0 0 1px #166534, inset 0 1px 0 rgba(163, 163, 172, 0.2)';
                 container.appendChild(card);
             });
             
             document.getElementById('ledge-count').innerHTML = `${ledgeTeams.length} TEAMS AT THE EDGE`;
         }
-        
+
         function renderEliminatedList() {
             const container = document.getElementById('eliminated-list');
             container.innerHTML = '';
             
-            if (eliminatedTeams.length === 0) {
+            if (!eliminatedTeams.length) {
                 container.innerHTML = `
                     <div class="text-center py-8 text-slate-400 text-xs">
                         <i class="fa-solid fa-cat text-2xl mb-2 opacity-40"></i><br>
                         No teams eliminated yet.<br>
-                        <span class="text-emerald-400/60">Start dropping cat coins!</span>
-                    </div>
-                `;
+                        <span class="text-emerald-400/60">Start dropping pixel cats!</span>
+                    </div>`;
                 return;
             }
             
             const reversed = [...eliminatedTeams].reverse();
-            
             reversed.forEach((entry, index) => {
                 const item = document.createElement('div');
                 item.className = `eliminated-item flex items-center gap-x-3 px-3 py-2 bg-slate-800/60 hover:bg-slate-800 rounded-2xl border border-slate-700/60`;
-                
-                const catInfo = entry.cat ? `by <span class="font-bold text-emerald-400">${entry.cat}</span>` : '';
                 
                 item.innerHTML = `
                     <div class="flex-shrink-0 text-2xl w-8 text-center">${entry.flag}</div>
                     <div class="flex-1 min-w-0">
                         <div class="font-bold text-sm leading-tight">${entry.name}</div>
-                        <div class="text-[10px] text-red-400/70">${catInfo}</div>
+                        <div class="text-[10px] text-red-400/70">by <span class="font-bold text-emerald-400">${entry.cat}</span></div>
                     </div>
                     <div class="text-[10px] text-right text-slate-500 font-mono">#${eliminatedTeams.length - index}</div>
                 `;
-                
                 container.appendChild(item);
             });
         }
-        
+
         function updateChutePreview() {
             const container = document.getElementById('chute-preview');
             container.innerHTML = '';
-            
             const lastFew = eliminatedTeams.slice(-3).reverse();
-            
             lastFew.forEach(entry => {
                 const mini = document.createElement('div');
                 mini.className = `text-xl opacity-70`;
@@ -712,7 +652,7 @@
                 container.appendChild(mini);
             });
         }
-        
+
         function renderCatShop() {
             const container = document.getElementById('cat-shop');
             container.innerHTML = '';
@@ -726,14 +666,14 @@
                     : `<span class="text-[9px] px-1.5 py-px bg-emerald-400 text-emerald-900 font-black rounded">STANDARD</span>`;
                 
                 card.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <div class="text-4xl mb-1 transition-transform group-hover:scale-110" style="color: ${cat.color}">${cat.emoji}</div>
+                    <div class="flex items-start justify-between mb-1">
+                        <div class="pixel-cat">${getPixelCatSVG(cat.id)}</div>
                         <div class="text-right">
                             <div class="text-xs text-amber-400 font-bold">${cat.cost} <span class="text-amber-500">TOKENS</span></div>
                         </div>
                     </div>
                     
-                    <div class="font-black text-base leading-none mt-1 mb-0.5">${cat.name}</div>
+                    <div class="font-black text-base leading-none mb-0.5">${cat.name}</div>
                     <div class="text-xs text-slate-300 line-clamp-2 mb-2">${cat.desc}</div>
                     
                     <div class="mt-auto flex items-center justify-between">
@@ -745,75 +685,75 @@
                 `;
                 
                 card.onclick = () => buyAndDropCat(cat);
-                
                 container.appendChild(card);
             });
         }
-        
+
         function buyAndDropCat(cat) {
             if (gameOver || remainingTeams.length <= 1) {
                 alert("The tournament is already decided!");
                 return;
             }
-            
             if (tokens < cat.cost) {
-                if (confirm(`You need ${cat.cost} tokens but only have ${tokens}.\n\nWant a quick top-up of 500 tokens to continue?`)) {
-                    tokens += 500;
-                    updateUI();
+                if (confirm(`Need ${cat.cost} tokens (you have ${tokens}).\n\nTop up 500 tokens?`)) {
+                    tokens += 500; updateUI();
                 }
                 return;
             }
             
             tokens -= cat.cost;
             updateUI();
-            
             dropCatIntoMachine(cat);
         }
-        
+
         function dropCatIntoMachine(cat) {
             const dropZone = document.getElementById('drop-zone');
             const ledgeContainer = document.getElementById('ledge-area');
             
             dropZone.innerHTML = '';
             
-            const flyingCat = document.createElement('div');
-            flyingCat.className = `cat-coin text-6xl absolute flex items-center justify-center`;
-            flyingCat.style.left = '50%';
-            flyingCat.style.top = '12px';
-            flyingCat.style.transform = 'translateX(-50%)';
-            flyingCat.innerHTML = cat.emoji;
+            const flying = document.createElement('div');
+            flying.className = `cat-coin text-6xl absolute flex items-center justify-center`;
+            flying.style.left = '50%';
+            flying.style.top = '8px';
+            flying.style.transform = 'translateX(-50%)';
+            flying.innerHTML = getPixelCatSVG(cat.id);
             
-            dropZone.appendChild(flyingCat);
-            
+            dropZone.appendChild(flying);
             playSound('drop');
             
             setTimeout(() => {
-                if (flyingCat.parentNode) flyingCat.parentNode.removeChild(flyingCat);
+                if (flying.parentNode) flying.parentNode.removeChild(flying);
                 
                 const pusher = document.getElementById('pusher-bar');
-                pusher.classList.add('push-animation');
-                ledgeContainer.classList.add('push-animation');
+                pusher.classList.add('pusher-thrust');
+                
+                const coins = ledgeContainer.querySelectorAll('.team-coin');
+                coins.forEach((coin, i) => {
+                    setTimeout(() => {
+                        coin.classList.add('jostle');
+                        setTimeout(() => coin.classList.remove('jostle'), 420);
+                    }, i * 35);
+                });
                 
                 setTimeout(() => {
-                    pusher.classList.remove('push-animation');
-                    ledgeContainer.classList.remove('push-animation');
-                    
+                    pusher.classList.remove('pusher-thrust');
                     performElimination(cat);
-                }, 680);
-            }, 1250);
+                }, 620);
+            }, 1080);
         }
-        
+
         function performElimination(cat) {
             if (remainingTeams.length <= 1) return;
             
             playsMade++;
             
             let elimCount = 1;
-            let isPowerMove = false;
+            let isPower = false;
             
-            if (cat.effect === 'power' && Math.random() < 0.28) {
+            if (cat.effect === 'power' && Math.random() < 0.27) {
                 elimCount = 2;
-                isPowerMove = true;
+                isPower = true;
                 playSound('power');
             } else {
                 playSound('elim');
@@ -822,41 +762,33 @@
             const victims = [];
             
             for (let i = 0; i < elimCount; i++) {
-                if (remainingTeams.length === 0) break;
+                if (!remainingTeams.length) break;
                 
                 let victim;
-                const useLedgeBias = Math.random() < 0.78 && ledgeTeams.length > 0;
+                const biasToLedge = Math.random() < 0.76 && ledgeTeams.length > 0;
                 
-                if (useLedgeBias) {
-                    const ledgeIndex = Math.floor(Math.random() * ledgeTeams.length);
-                    victim = ledgeTeams[ledgeIndex];
-                    ledgeTeams.splice(ledgeIndex, 1);
+                if (biasToLedge) {
+                    const idx = Math.floor(Math.random() * ledgeTeams.length);
+                    victim = ledgeTeams[idx];
+                    ledgeTeams.splice(idx, 1);
                 } else {
-                    const randIndex = Math.floor(Math.random() * remainingTeams.length);
-                    victim = remainingTeams[randIndex];
+                    const idx = Math.floor(Math.random() * remainingTeams.length);
+                    victim = remainingTeams[idx];
                 }
                 
                 remainingTeams = remainingTeams.filter(t => t.code !== victim.code);
                 
-                eliminatedTeams.push({
-                    ...victim,
-                    cat: cat.name,
-                    timestamp: Date.now()
-                });
-                
+                eliminatedTeams.push({ ...victim, cat: cat.name });
                 victims.push(victim);
             }
             
             victims.forEach(victim => {
-                const cardEl = document.querySelector(`[data-code="${victim.code}"]`);
-                if (cardEl) {
-                    cardEl.style.transition = 'all 0.75s cubic-bezier(0.55, 0.06, 0.68, 0.19)';
-                    cardEl.style.transform = 'translateX(210px) translateY(90px) rotate(55deg)';
-                    cardEl.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        if (cardEl.parentNode) cardEl.parentNode.removeChild(cardEl);
-                    }, 720);
+                const card = document.querySelector(`[data-code="${victim.code}"]`);
+                if (card) {
+                    card.style.transition = 'all 0.7s cubic-bezier(0.55, 0.06, 0.68, 0.19)';
+                    card.style.transform = 'translateX(195px) translateY(95px) rotate(58deg)';
+                    card.style.opacity = '0';
+                    setTimeout(() => { if (card.parentNode) card.parentNode.removeChild(card); }, 680);
                 }
             });
             
@@ -867,97 +799,70 @@
                 updatePileCount();
                 refreshLedge();
                 
-                if (victims.length > 0) {
-                    showElimToast(victims, cat, isPowerMove);
-                }
+                if (victims.length > 0) showElimToast(victims, cat, isPower);
                 
                 if (remainingTeams.length === 1) {
-                    setTimeout(() => {
-                        triggerVictory();
-                    }, 900);
+                    setTimeout(triggerVictory, 850);
                 }
-            }, 850);
+            }, 780);
         }
-        
-        function showElimToast(victims, cat, isPowerMove) {
+
+        function showElimToast(victims, cat, isPower) {
             const toast = document.createElement('div');
-            toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999';
+            toast.style.cssText = 'position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:9999';
             
             let html = '';
-            
             if (victims.length === 1) {
                 const v = victims[0];
-                html = `
-                    <div class="bg-slate-900 border border-red-500/70 shadow-xl rounded-3xl px-5 py-3 flex items-center gap-x-4 max-w-xs">
-                        <div class="text-3xl">${v.flag}</div>
-                        <div class="flex-1">
-                            <div class="text-red-400 text-xs font-bold">PUSHED OFF THE EDGE</div>
-                            <div class="font-black">${v.name}</div>
-                            <div class="text-xs text-emerald-400">by ${cat.emoji} ${cat.name}</div>
-                        </div>
-                    </div>
-                `;
+                html = `<div class="bg-slate-900 border border-red-500/70 shadow-xl rounded-3xl px-5 py-3 flex items-center gap-x-4 max-w-xs">
+                    <div class="text-3xl">${v.flag}</div>
+                    <div class="flex-1"><div class="text-red-400 text-xs font-bold">PUSHED OFF THE EDGE</div>
+                    <div class="font-black">${v.name}</div><div class="text-xs text-emerald-400">by ${cat.name}</div></div></div>`;
             } else {
-                html = `
-                    <div class="bg-orange-950 border border-orange-400/70 shadow-xl rounded-3xl px-5 py-3 max-w-xs">
-                        <div class="flex items-center gap-x-2 mb-1">
-                            <span class="text-orange-400 font-black text-xs">POWER MOVE!</span>
-                            <span class="text-xs text-orange-300">${cat.emoji} ${cat.name}</span>
-                        </div>
-                        <div class="text-sm">
-                            ${victims.map(v => `${v.flag} <span class="font-bold">${v.name}</span>`).join(' &amp; ')} 
-                            <span class="text-orange-300 text-xs">were eliminated!</span>
-                        </div>
-                    </div>
-                `;
+                html = `<div class="bg-orange-950 border border-orange-400/70 shadow-xl rounded-3xl px-5 py-3 max-w-xs">
+                    <div class="flex items-center gap-x-2 mb-1"><span class="text-orange-400 font-black text-xs">POWER MOVE!</span>
+                    <span class="text-xs text-orange-300">${cat.name}</span></div>
+                    <div class="text-sm">${victims.map(v => `${v.flag} <span class="font-bold">${v.name}</span>`).join(' & ')} eliminated!</div></div>`;
             }
             
             toast.innerHTML = html;
             document.body.appendChild(toast);
             
             setTimeout(() => {
-                toast.style.transition = 'all 0.4s ease';
+                toast.style.transition = 'all 0.35s ease';
                 toast.style.opacity = '0';
-                setTimeout(() => toast.parentNode.removeChild(toast), 380);
-            }, 2600);
+                setTimeout(() => toast.parentNode && toast.parentNode.removeChild(toast), 300);
+            }, 2400);
         }
-        
+
         function manualPush() {
             if (gameOver || remainingTeams.length <= 1) return;
             
-            const fakeCat = {
-                name: "Manual Pusher",
-                emoji: "⚙️",
-                effect: "normal"
-            };
-            
             const pusher = document.getElementById('pusher-bar');
-            pusher.classList.add('push-animation');
+            pusher.classList.add('pusher-thrust');
+            
+            const ledgeContainer = document.getElementById('ledge-area');
+            const coins = ledgeContainer.querySelectorAll('.team-coin');
+            coins.forEach((c, i) => setTimeout(() => { c.classList.add('jostle'); setTimeout(() => c.classList.remove('jostle'), 400); }, i * 30));
             
             setTimeout(() => {
-                pusher.classList.remove('push-animation');
+                pusher.classList.remove('pusher-thrust');
+                const fakeCat = { name: "Manual Push", effect: "normal" };
                 performElimination(fakeCat);
-            }, 650);
+            }, 580);
         }
-        
+
         function simulateFastEliminations(count) {
             if (gameOver || remainingTeams.length <= 1) return;
             
-            const maxPossible = Math.min(count, remainingTeams.length - 1);
-            
-            for (let i = 0; i < maxPossible; i++) {
-                const randomCat = CAT_BREEDS[Math.floor(Math.random() * CAT_BREEDS.length)];
+            const max = Math.min(count, remainingTeams.length - 1);
+            for (let i = 0; i < max; i++) {
                 playsMade++;
-                
-                const randIndex = Math.floor(Math.random() * remainingTeams.length);
-                const victim = remainingTeams[randIndex];
-                
-                remainingTeams.splice(randIndex, 1);
-                
-                eliminatedTeams.push({
-                    ...victim,
-                    cat: randomCat.name + " (fast)"
-                });
+                const randCat = CAT_BREEDS[Math.floor(Math.random() * CAT_BREEDS.length)];
+                const idx = Math.floor(Math.random() * remainingTeams.length);
+                const victim = remainingTeams[idx];
+                remainingTeams.splice(idx, 1);
+                eliminatedTeams.push({ ...victim, cat: randCat.name + " (fast)" });
             }
             
             refreshLedge();
@@ -966,11 +871,9 @@
             updateChutePreview();
             updatePileCount();
             
-            if (remainingTeams.length === 1) {
-                setTimeout(triggerVictory, 300);
-            }
+            if (remainingTeams.length === 1) setTimeout(triggerVictory, 280);
         }
-        
+
         function triggerVictory() {
             if (gameOver || remainingTeams.length !== 1) return;
             gameOver = true;
@@ -983,104 +886,85 @@
                 <div class="flex flex-col items-center">
                     <div class="text-[92px] mb-1 drop-shadow-xl">${winner.flag}</div>
                     <div class="text-4xl font-black tracking-tighter">${winner.name}</div>
-                    <div class="text-emerald-400 text-sm mt-1 font-bold">${winner.code} • WORLD CHAMPIONS</div>
-                </div>
-            `;
+                    <div class="text-emerald-400 text-sm mt-1 font-bold">${winner.code} • 2026 WORLD CHAMPIONS</div>
+                </div>`;
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            
             playSound('win');
             launchConfetti();
         }
-        
+
         function hideVictoryModal() {
             const modal = document.getElementById('victory-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
-        
+
         function launchConfetti() {
             const container = document.getElementById('victory-modal');
-            
-            for (let i = 0; i < 65; i++) {
+            for (let i = 0; i < 70; i++) {
                 const piece = document.createElement('div');
                 piece.className = 'absolute text-2xl pointer-events-none';
                 piece.style.left = Math.random() * 100 + '%';
-                piece.style.top = '-20px';
-                piece.style.opacity = Math.random() + 0.6;
-                piece.style.transition = `transform ${1800 + Math.random() * 2200}ms linear, opacity 800ms ease`;
-                piece.innerHTML = ['🎉', '🏆', '⚽', '🐱'][Math.floor(Math.random() * 4)];
-                
+                piece.style.top = '-10px';
+                piece.style.opacity = Math.random() + 0.65;
+                piece.style.transition = `transform ${1700 + Math.random()*2100}ms linear, opacity 700ms ease`;
+                piece.innerHTML = ['🎉','🏆','⚽','🐱'][Math.floor(Math.random()*4)];
                 container.appendChild(piece);
                 
                 setTimeout(() => {
-                    piece.style.transform = `translateY(${380 + Math.random() * 280}px) rotate(${Math.random() * 520 - 140}deg)`;
-                    
+                    piece.style.transform = `translateY(${360 + Math.random()*300}px) rotate(${Math.random()*480 - 120}deg)`;
                     setTimeout(() => {
                         piece.style.opacity = '0';
-                        setTimeout(() => {
-                            if (piece.parentNode) piece.parentNode.removeChild(piece);
-                        }, 300);
-                    }, 1600);
-                }, 40);
+                        setTimeout(() => piece.parentNode && piece.parentNode.removeChild(piece), 280);
+                    }, 1500);
+                }, 30);
             }
         }
-        
+
         function resetGame() {
             const modal = document.getElementById('victory-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-            
             initGame();
             
             setTimeout(() => {
-                const welcome = document.createElement('div');
-                welcome.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%)';
-                welcome.innerHTML = `
-                    <div class="bg-emerald-900/90 text-emerald-200 text-xs px-4 py-2 rounded-2xl flex items-center gap-x-2 shadow-inner border border-emerald-400/30">
-                        <span>Game reset. 48 teams ready. Good luck, coach!</span>
-                    </div>
-                `;
-                document.body.appendChild(welcome);
-                
-                setTimeout(() => {
-                    welcome.style.transition = 'all .3s ease';
-                    welcome.style.opacity = '0';
-                    setTimeout(() => welcome.parentNode.removeChild(welcome), 200);
-                }, 1700);
-            }, 450);
+                const w = document.createElement('div');
+                w.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%)';
+                w.innerHTML = `<div class="bg-emerald-900/90 text-emerald-200 text-xs px-4 py-2 rounded-2xl flex items-center gap-x-2 shadow-inner border border-emerald-400/30">
+                    <span>Game reset • 48 teams ready. Good luck!</span></div>`;
+                document.body.appendChild(w);
+                setTimeout(() => { w.style.transition='all .3s ease'; w.style.opacity='0'; setTimeout(() => w.parentNode.removeChild(w), 180); }, 1600);
+            }, 420);
         }
-        
+
         function initializeEverything() {
             initAudio();
             initGame();
             
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', e => {
                 if (e.key === '?' || e.key === '/') {
                     e.preventDefault();
-                    const shop = document.getElementById('cat-shop');
-                    shop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    document.getElementById('cat-shop').scrollIntoView({behavior:'smooth', block:'center'});
                 }
-                
                 if (e.key.toLowerCase() === 'r' && e.metaKey) {
-                    e.preventDefault();
-                    resetGame();
+                    e.preventDefault(); resetGame();
                 }
             });
             
-            const logo = document.querySelector('.fa-store');
-            if (logo) {
-                logo.parentElement.onclick = () => {
-                    tokens += 200;
+            const logoArea = document.querySelector('.fa-store');
+            if (logoArea) {
+                logoArea.parentElement.onclick = () => {
+                    tokens += 250;
                     updateUI();
-                    const orig = logo.style.color;
-                    logo.style.color = '#facc15';
-                    setTimeout(() => { logo.style.color = orig || ''; }, 700);
+                    const orig = logoArea.style.color;
+                    logoArea.style.color = '#fcd34d';
+                    setTimeout(() => logoArea.style.color = orig || '', 650);
                 };
             }
             
-            console.log('%c[CatCoin Pusher] Demo ready. 48 World Cup teams loaded. Meow.', 'color:#4ade80');
+            console.log('%c[CatCoin Pusher v2] Pixel art cats + realistic pusher motion ready.', 'color:#4ade80');
         }
         
         window.onload = initializeEverything;
