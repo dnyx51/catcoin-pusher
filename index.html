@@ -6,6 +6,7 @@
     <title>🐱 CatCoin Pusher • World Cup 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
         
@@ -20,103 +21,20 @@
             border: 8px solid #052e16;
         }
         
-        .pusher-bar {
-            background: linear-gradient(#eab308, #ca8a04);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3),
-                        inset 0 2px 0 #fef08c,
-                        inset 0 -2px 0 #854d0e;
-            transition: transform 0.1s linear;
-            animation: pusherOscillate 2.6s ease-in-out infinite alternate;
-        }
-        
-        @keyframes pusherOscillate {
-            from { transform: translateX(-22px); }
-            to { transform: translateX(22px); }
-        }
-        
-        .pusher-thrust {
-            animation: pusherThrust 480ms cubic-bezier(0.23, 1.0, 0.32, 1) forwards !important;
-        }
-        
-        @keyframes pusherThrust {
-            0% { transform: translateX(0) scaleY(1); }
-            18% { transform: translateX(32px) scaleY(0.85); }
-            40% { transform: translateX(-8px) scaleY(1.1); }
-            65% { transform: translateX(12px) scaleY(0.94); }
-            100% { transform: translateX(0) scaleY(1); }
-        }
-        
-        .coin-pile {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        .physics-canvas {
+            border: 6px solid #052e16;
+            border-radius: 12px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
             background: #052e16;
-            border: 4px solid #166534;
-        }
-        
-        .team-coin {
-            position: absolute;
-            width: 46px;
-            height: 46px;
-            border-radius: 9999px;
-            background: #052e16;
-            border: 3px solid #4ade80;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 12px -2px rgb(0 0 0 / 0.5),
-                        inset 0 2px 0 rgba(255,255,255,0.25);
-            transition: transform 0.06s linear;
-            z-index: 10;
-            font-size: 11px;
-        }
-        
-        .team-coin.falling {
-            animation: coinTumbleOff 620ms cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
-            z-index: 100;
-        }
-        
-        @keyframes coinTumbleOff {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(210px) rotate(72deg); opacity: 0; }
-        }
-        
-        .cat-pixel {
-            width: 46px;
-            height: 46px;
-            image-rendering: crisp-edges;
-        }
-        
-        .cat-coin {
-            animation: catDrop 920ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            filter: drop-shadow(0 14px 12px rgb(0 0 0 / 0.45));
-        }
-        
-        .machine-glass {
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0.05) 0%,
-                rgba(255,255,255,0.008) 45%,
-                rgba(0,0,0,0.3) 85%
-            );
-            box-shadow: inset 0 0 90px rgba(0,0,0,0.55);
         }
         
         .arcade-text { font-family: "Press Start 2P", system-ui; text-shadow: 3px 3px 0 #052e16; }
         .stat-value { font-family: "Press Start 2P", system-ui; }
         
-        .ledge {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 38px;
-            background: linear-gradient(#166534, #052e16);
-            border-top: 4px solid #4ade80;
-            z-index: 5;
-        }
+        .cat-pixel { width: 46px; height: 46px; image-rendering: crisp-edges; }
+        
+        .cat-btn { transition: all 0.1s ease; }
+        .cat-btn:active { transform: scale(0.96) translateY(1px); }
     </style>
 </head>
 <body class="text-white">
@@ -166,7 +84,7 @@
                             <i class="fa-solid fa-store text-emerald-400"></i> 
                             <span>CAT COIN SHOP</span>
                         </h3>
-                        <p class="text-xs text-slate-400">Pixel art headshots • Buy to push</p>
+                        <p class="text-xs text-slate-400">Pixel art headshots • Physical cats</p>
                     </div>
                 </div>
                 
@@ -174,7 +92,7 @@
                 </div>
             </div>
             
-            <!-- TRADITIONAL COIN PUSHER -->
+            <!-- REAL PHYSICS COIN PUSHER -->
             <div class="lg:col-span-6">
                 <div class="arcade-machine rounded-[2.75rem] p-4 relative overflow-hidden">
                     <div class="flex items-center justify-between px-4 pb-3">
@@ -186,48 +104,19 @@
                             <div class="text-xs text-emerald-400 font-mono">FOFA ARCADE EDITION</div>
                         </div>
                         <div class="text-right">
-                            <div class="text-xs text-emerald-400">COIN PUSHER</div>
-                            <div id="visible-count" class="text-emerald-300 text-sm font-bold">16 COINS ON SHELF</div>
+                            <div class="text-xs text-emerald-400">PHYSICS PUSHER TRAY</div>
+                            <div id="visible-count" class="text-emerald-300 text-sm font-bold">20 COINS</div>
                         </div>
                     </div>
                     
-                    <!-- THE MACHINE -->
+                    <!-- Physics Canvas Container -->
                     <div class="relative rounded-3xl overflow-hidden border-[8px] border-[#052e16] bg-[#052e16] shadow-inner" 
-                         style="height: 455px; background: linear-gradient(#14532d, #052e16);">
+                         style="height: 460px;">
                         
-                        <div class="worldcup-bg absolute inset-0 opacity-35"></div>
+                        <canvas id="physics-canvas" width="620" height="420" 
+                                class="physics-canvas w-full h-full cursor-crosshair"></canvas>
                         
-                        <!-- Drop Zone -->
-                        <div id="drop-zone" class="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-20 border-2 border-dashed border-emerald-400/40 rounded-full flex items-center justify-center z-50 pointer-events-none"></div>
-                        
-                        <!-- PLAY AREA -->
-                        <div id="pile-area" 
-                             class="coin-pile absolute top-[48px] left-[18px] right-[18px] bottom-[88px] rounded-xl">
-                            
-                            <!-- Front ledge / drop lip -->
-                            <div class="ledge"></div>
-                        </div>
-                        
-                        <!-- PUSHER BAR -->
-                        <div class="absolute bottom-[68px] left-3 right-3 z-40">
-                            <div id="pusher-bar"
-                                 class="h-9 w-full rounded-2xl pusher-bar flex items-center justify-center cursor-pointer shadow-inner"
-                                 onclick="manualPush()">
-                                <div class="flex items-center gap-x-2 text-[#713f12] text-xs font-black tracking-[3px]">
-                                    <span>← PUSHER PLATFORM →</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-30">
-                            <div class="inline-flex items-center gap-x-2 bg-black/70 px-4 py-1 rounded-2xl border border-emerald-900/50 text-sm">
-                                <i class="fa-solid fa-layer-group text-emerald-400"></i>
-                                <span id="pile-count" class="font-black text-emerald-300">32</span>
-                                <span class="text-emerald-400/70 text-xs font-bold">BURIED</span>
-                            </div>
-                        </div>
-                        
-                        <div class="absolute bottom-1 right-4 text-[9px] text-emerald-400/40 font-mono tracking-widest">v4 • TRADITIONAL</div>
+                        <div class="absolute bottom-2 right-3 text-[9px] text-emerald-400/40 font-mono tracking-widest z-10">v5 • MATTER.JS</div>
                     </div>
                     
                     <div class="flex items-center justify-center gap-x-3 mt-3">
@@ -260,7 +149,7 @@
                 
                 <div class="mt-auto pt-3 border-t border-slate-700">
                     <div class="text-xs text-center text-slate-400 mb-1">LAST TEAM STANDING = WORLD CUP CHAMPION</div>
-                    <div onclick="if(confirm('Reset the run?')) resetGame()" 
+                    <div onclick="if(confirm('Reset everything?')) resetGame()" 
                          class="cursor-pointer text-center text-xs py-1.5 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center gap-x-1">
                         <i class="fa-solid fa-power-off"></i>
                         <span class="font-bold">END RUN &amp; RESTART</span>
@@ -276,7 +165,7 @@
             <div class="text-6xl mb-1">🏆</div>
             <div class="text-emerald-400 text-xs tracking-[4px] font-black mb-1">WORLD CUP 2026 CHAMPION</div>
             <div id="winner-display" class="my-4"></div>
-            <p class="text-slate-300 mb-6 text-sm">47 teams pushed off the edge by your cats.<br>One champion crowned.</p>
+            <p class="text-slate-300 mb-6 text-sm">47 teams pushed off the edge with real physics.<br>One champion remains.</p>
             <div class="flex gap-x-3 justify-center">
                 <button onclick="resetGame(); hideVictoryModal()" class="flex-1 py-3.5 font-black text-lg bg-emerald-500 hover:bg-emerald-600 transition-colors rounded-2xl text-emerald-950">PLAY AGAIN</button>
                 <button onclick="hideVictoryModal()" class="flex-1 py-3.5 font-bold border border-slate-600 hover:bg-slate-800 transition-colors rounded-2xl">CLOSE</button>
@@ -285,6 +174,18 @@
     </div>
 
     <script>
+        const { Engine, Render, Runner, Bodies, Composite, Body, Events, World } = Matter;
+
+        let engine, world, runner;
+        let canvas, ctx;
+        let pusherBody;
+        let visibleCoins = [];
+        let remainingTeams = [];
+        let eliminatedTeams = [];
+        let tokens = 3200;
+        let playsMade = 0;
+        let gameOver = false;
+
         const ALL_TEAMS = [
             {code:"ARG",name:"Argentina",flag:"🇦🇷"},{code:"AUS",name:"Australia",flag:"🇦🇺"},{code:"AUT",name:"Austria",flag:"🇦🇹"},
             {code:"BEL",name:"Belgium",flag:"🇧🇪"},{code:"BIH",name:"Bosnia & Herzegovina",flag:"🇧🇦"},{code:"BRA",name:"Brazil",flag:"🇧🇷"},
@@ -354,64 +255,220 @@
             setTimeout(() => { gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.48); osc.stop(); }, 480);
         }
 
-        function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+        function shuffle(array) {
+            const newArr = [...array];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        }
 
-        function initGame() {
-            remainingTeams = shuffle([...ALL_TEAMS]);
-            eliminatedTeams = [];
-            tokens = 3200;
-            playsMade = 0;
-            gameOver = false;
-            visibleCoins = [];
+        function initPhysics() {
+            canvas = document.getElementById('physics-canvas');
+            ctx = canvas.getContext('2d', { alpha: true });
+
+            engine = Engine.create();
+            world = engine.world;
+            engine.gravity.y = 0.8;
+
+            const w = canvas.width;
+            const h = canvas.height;
+
+            Composite.add(world, Bodies.rectangle(15, h/2, 30, h, { isStatic: true, friction: 0.6 }));
+            Composite.add(world, Bodies.rectangle(w-15, h/2, 30, h, { isStatic: true, friction: 0.6 }));
+            Composite.add(world, Bodies.rectangle(w/2, 25, w-60, 30, { isStatic: true, friction: 0.6 }));
+            Composite.add(world, Bodies.rectangle(w/2, h-25, w-60, 20, { isStatic: true, friction: 0.8 }));
+
+            pusherBody = Bodies.rectangle(w/2, h-85, w-80, 22, {
+                isStatic: false,
+                friction: 0.9,
+                restitution: 0.1,
+                density: 0.001
+            });
+            pusherBody.isKinematic = true;
+            Composite.add(world, pusherBody);
+
+            runner = Runner.create();
+            Runner.run(runner, engine);
+
+            Events.on(engine, 'afterUpdate', () => {
+                checkForFallingCoins();
+            });
+
+            requestAnimationFrame(renderLoop);
+        }
+
+        function createCoinBody(team, x, y) {
+            const body = Bodies.circle(x, y, 23, {
+                friction: 0.7,
+                restitution: 0.25,
+                density: 0.0015,
+                frictionAir: 0.015
+            });
+            body.team = team;
+            return body;
+        }
+
+        function spawnInitialCoins() {
+            const w = canvas.width;
+            const h = canvas.height;
             
-            updateUI();
-            renderCatShop();
-            createInitialPile();
-            renderEliminatedList();
+            visibleCoins = [];
+            const count = Math.min(20, remainingTeams.length);
+            
+            for (let i = 0; i < count; i++) {
+                const team = remainingTeams[i];
+                const x = 80 + Math.random() * (w - 160);
+                const y = 80 + Math.random() * (h - 180);
+                
+                const body = createCoinBody(team, x, y);
+                Composite.add(world, body);
+                visibleCoins.push({ body, team });
+            }
+            
+            remainingTeams = remainingTeams.slice(count);
+        }
+
+        function checkForFallingCoins() {
+            const h = canvas.height;
+            
+            for (let i = visibleCoins.length - 1; i >= 0; i--) {
+                const coin = visibleCoins[i];
+                if (coin.body.position.y > h - 30) {
+                    Composite.remove(world, coin.body);
+                    
+                    eliminatedTeams.push({ ...coin.team, cat: "Physics Push" });
+                    visibleCoins.splice(i, 1);
+                    
+                    renderEliminatedList();
+                    updateUI();
+                    
+                    if (remainingTeams.length + visibleCoins.length === 1 && !gameOver) {
+                        setTimeout(triggerVictory, 400);
+                    }
+                }
+            }
+        }
+
+        function renderLoop() {
+            if (!ctx || !canvas) return;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#052e16';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#166534';
+            ctx.lineWidth = 1;
+            for (let x = 40; x < canvas.width; x += 45) {
+                ctx.beginPath();
+                ctx.moveTo(x, 40);
+                ctx.lineTo(x, canvas.height - 50);
+                ctx.stroke();
+            }
+            
+            visibleCoins.forEach(coin => {
+                const pos = coin.body.position;
+                const angle = coin.body.angle;
+                
+                ctx.save();
+                ctx.translate(pos.x, pos.y);
+                ctx.rotate(angle);
+                
+                ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                ctx.beginPath();
+                ctx.ellipse(3, 4, 22, 22, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#052e16';
+                ctx.strokeStyle = '#4ade80';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(0, 0, 22, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 18px system-ui';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(coin.team.flag, 0, -2);
+                
+                ctx.fillStyle = '#4ade80';
+                ctx.font = 'bold 9px "Press Start 2P", system-ui';
+                ctx.fillText(coin.team.code, 0, 14);
+                
+                ctx.restore();
+            });
+            
+            if (pusherBody) {
+                const pos = pusherBody.position;
+                ctx.fillStyle = '#eab308';
+                ctx.strokeStyle = '#854d0e';
+                ctx.lineWidth = 3;
+                ctx.fillRect(pos.x - 280, pos.y - 11, 560, 22);
+                ctx.strokeRect(pos.x - 280, pos.y - 11, 560, 22);
+                
+                ctx.fillStyle = '#713f12';
+                ctx.font = 'bold 10px "Press Start 2P", system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText('PUSHER', pos.x, pos.y + 4);
+            }
+            
+            requestAnimationFrame(renderLoop);
+        }
+
+        function thrustPusher(strength = 1) {
+            if (!pusherBody) return;
+            const force = 0.018 * strength;
+            Body.setVelocity(pusherBody, { x: 0, y: -force });
+            
+            setTimeout(() => {
+                if (pusherBody) Body.setVelocity(pusherBody, { x: 0, y: 0 });
+            }, 420);
+        }
+
+        function dropPhysicalCat(cat) {
+            if (!canvas || gameOver) return;
+            
+            const w = canvas.width;
+            const dropX = w / 2 + (Math.random() * 80 - 40);
+            const dropY = 60;
+            
+            const catBody = Bodies.circle(dropX, dropY, 18, {
+                friction: 0.6,
+                restitution: 0.4,
+                density: 0.002,
+                frictionAir: 0.01
+            });
+            
+            catBody.isCat = true;
+            catBody.catName = cat.name;
+            
+            Composite.add(world, catBody);
+            
+            setTimeout(() => {
+                if (catBody && Composite.allBodies(world).includes(catBody)) {
+                    Composite.remove(world, catBody);
+                }
+            }, 2800);
+            
+            setTimeout(() => {
+                thrustPusher(cat.effect === 'power' ? 1.6 : 1.0);
+            }, 180);
         }
 
         function updateUI() {
             document.getElementById('elim-count').textContent = `${playsMade} / 47`;
             document.getElementById('remaining-count').textContent = remainingTeams.length;
             document.getElementById('token-count').textContent = tokens.toLocaleString();
-            document.getElementById('visible-count').textContent = `${visibleCoins.length} COINS ON SHELF`;
-            document.getElementById('pile-count').textContent = Math.max(0, remainingTeams.length - visibleCoins.length);
+            document.getElementById('visible-count').textContent = `${visibleCoins.length} COINS`;
+            document.getElementById('pile-count').textContent = Math.max(0, remainingTeams.length);
             
-            if (remainingTeams.length === 1 && !gameOver) triggerVictory();
-        }
-
-        function createInitialPile() {
-            const area = document.getElementById('pile-area');
-            area.innerHTML = '';
-            visibleCoins = [];
-            
-            const count = Math.min(16, remainingTeams.length);
-            for (let i = 0; i < count; i++) {
-                const team = remainingTeams[i];
-                const coin = createCoinElement(team);
-                
-                const col = i % 4;
-                const row = Math.floor(i / 4);
-                const x = 25 + col * 52 + (row % 2) * 18 + Math.random() * 12;
-                const y = 25 + row * 38 + Math.random() * 14;
-                
-                coin.style.left = `${x}px`;
-                coin.style.top = `${y}px`;
-                
-                area.appendChild(coin);
-                visibleCoins.push({ el: coin, team: team, x: x, y: y });
+            if (remainingTeams.length + visibleCoins.length === 1 && !gameOver) {
+                triggerVictory();
             }
-            remainingTeams = remainingTeams.slice(count);
-        }
-
-        function createCoinElement(team) {
-            const coin = document.createElement('div');
-            coin.className = 'team-coin';
-            coin.innerHTML = `
-                <div class="text-[21px] leading-none mt-px">${team.flag}</div>
-                <div class="text-[8px] font-black text-emerald-300 tracking-wider -mt-px">${team.code}</div>
-            `;
-            return coin;
         }
 
         function renderCatShop() {
@@ -444,118 +501,24 @@
         }
 
         function buyAndDropCat(cat) {
-            if (gameOver || remainingTeams.length + visibleCoins.length <= 1) return alert("Tournament is over!");
-            if (tokens < cat.cost) {
-                if (confirm(`You need ${cat.cost} tokens. Add 500?`)) { tokens += 500; updateUI(); }
+            if (gameOver || remainingTeams.length + visibleCoins.length <= 1) {
+                alert("The tournament is already decided!");
                 return;
             }
-            tokens -= cat.cost;
-            updateUI();
-            dropCat(cat);
-        }
-
-        function dropCat(cat) {
-            const zone = document.getElementById('drop-zone');
-            zone.innerHTML = '';
-            
-            const flying = document.createElement('div');
-            flying.className = `cat-coin absolute text-5xl flex items-center justify-center`;
-            flying.style.left = '50%';
-            flying.style.top = '8px';
-            flying.style.transform = 'translateX(-50%)';
-            flying.innerHTML = getPixelCatSVG(cat.id);
-            zone.appendChild(flying);
-            
-            playSound('drop');
-            
-            setTimeout(() => {
-                if (flying.parentNode) flying.parentNode.removeChild(flying);
-                triggerTraditionalPush(cat);
-            }, 880);
-        }
-
-        function triggerTraditionalPush(cat) {
-            const area = document.getElementById('pile-area');
-            const pusher = document.getElementById('pusher-bar');
-            
-            pusher.classList.add('pusher-thrust');
-            playSound(cat.effect === 'power' ? 'power' : 'elim');
-            
-            let fellOff = 0;
-            const pushPower = cat.effect === 'power' ? 1.35 : 1.0;
-            
-            visibleCoins.forEach((coinObj, index) => {
-                const coin = coinObj.el;
-                if (!coin.parentNode) return;
-                
-                const pushY = (42 + Math.random() * 28) * pushPower;
-                const newTop = coinObj.y + pushY;
-                
-                coin.style.transition = `transform 360ms cubic-bezier(0.23, 1.0, 0.32, 1)`;
-                coin.style.transform = `translateY(${pushY}px)`;
-                
-                if (newTop > area.clientHeight - 52) {
-                    setTimeout(() => {
-                        if (!coin.parentNode) return;
-                        
-                        coin.classList.add('falling');
-                        
-                        setTimeout(() => {
-                            if (coin.parentNode) coin.parentNode.removeChild(coin);
-                            
-                            eliminatedTeams.push({ ...coinObj.team, cat: cat.name });
-                            fellOff++;
-                            
-                            const idx = remainingTeams.findIndex(t => t.code === coinObj.team.code);
-                            if (idx > -1) remainingTeams.splice(idx, 1);
-                            
-                            visibleCoins = visibleCoins.filter(c => c !== coinObj);
-                            
-                            renderEliminatedList();
-                            updateUI();
-                            
-                            if (fellOff > 0 && remainingTeams.length + visibleCoins.length === 1) {
-                                setTimeout(triggerVictory, 550);
-                            }
-                        }, 580);
-                    }, 240 + index * 22);
-                } else {
-                    coinObj.y = newTop;
+            if (tokens < cat.cost) {
+                if (confirm(`You need ${cat.cost} tokens. Top up 500?`)) {
+                    tokens += 500;
+                    updateUI();
                 }
-            });
-            
-            if (remainingTeams.length > 0 && Math.random() < 0.7) {
-                setTimeout(() => {
-                    const newTeam = remainingTeams.shift();
-                    const newCoin = createCoinElement(newTeam);
-                    
-                    const startX = 35 + Math.random() * (area.clientWidth - 95);
-                    newCoin.style.left = `${startX}px`;
-                    newCoin.style.top = `-8px`;
-                    newCoin.style.transition = 'none';
-                    area.appendChild(newCoin);
-                    
-                    setTimeout(() => {
-                        newCoin.style.transition = 'top 380ms ease-out';
-                        newCoin.style.top = `${28 + Math.random() * 35}px`;
-                        
-                        visibleCoins.push({ el: newCoin, team: newTeam, x: startX, y: 45 });
-                        updateUI();
-                    }, 60);
-                }, 480);
+                return;
             }
             
-            setTimeout(() => {
-                pusher.classList.remove('pusher-thrust');
-                visibleCoins = visibleCoins.filter(c => c.el.parentNode);
-                updateUI();
-            }, 580);
-        }
-
-        function manualPush() {
-            if (gameOver || visibleCoins.length === 0) return;
-            const fake = { name: "Manual Push", effect: "normal" };
-            triggerTraditionalPush(fake);
+            tokens -= cat.cost;
+            updateUI();
+            playsMade++;
+            
+            dropPhysicalCat(cat);
+            updateUI();
         }
 
         function simulateFastEliminations(count) {
@@ -565,32 +528,17 @@
                 if (remainingTeams.length + visibleCoins.length <= 1) break;
                 playsMade++;
                 
-                const cat = CAT_BREEDS[Math.floor(Math.random() * CAT_BREEDS.length)];
-                
                 if (visibleCoins.length > 0) {
                     const idx = Math.floor(Math.random() * visibleCoins.length);
-                    const coinObj = visibleCoins[idx];
+                    const coin = visibleCoins[idx];
                     
-                    if (coinObj.el.parentNode) {
-                        coinObj.el.classList.add('falling');
-                        setTimeout(() => {
-                            if (coinObj.el.parentNode) coinObj.el.parentNode.removeChild(coinObj.el);
-                        }, 480);
-                    }
-                    
-                    eliminatedTeams.push({ ...coinObj.team, cat: cat.name + " (fast)" });
+                    Composite.remove(world, coin.body);
+                    eliminatedTeams.push({ ...coin.team, cat: "Fast Physics" });
                     visibleCoins.splice(idx, 1);
                 } else if (remainingTeams.length > 0) {
                     const team = remainingTeams.shift();
-                    eliminatedTeams.push({ ...team, cat: cat.name + " (fast)" });
+                    eliminatedTeams.push({ ...team, cat: "Fast Physics" });
                 }
-            }
-            
-            const area = document.getElementById('pile-area');
-            if (visibleCoins.length < 7 && remainingTeams.length > 0) {
-                area.innerHTML = '';
-                visibleCoins = [];
-                createInitialPile();
             }
             
             renderEliminatedList();
@@ -604,7 +552,7 @@
             container.innerHTML = '';
             
             if (eliminatedTeams.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No teams have fallen off yet.<br><span class="text-emerald-400/60">Drop cats to start the push!</span></div>`;
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No teams eliminated yet.<br><span class="text-emerald-400/60">Drop physical cats to push!</span></div>`;
                 return;
             }
             
@@ -628,7 +576,7 @@
             if (gameOver) return;
             gameOver = true;
             
-            const last = remainingTeams.length > 0 ? remainingTeams[0] : visibleCoins[0]?.team;
+            const last = remainingTeams.length > 0 ? remainingTeams[0] : (visibleCoins.length > 0 ? visibleCoins[0].team : null);
             if (!last) return;
             
             const modal = document.getElementById('victory-modal');
@@ -643,7 +591,6 @@
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            playSound('win');
             
             const cont = modal;
             for (let i = 0; i < 70; i++) {
@@ -654,10 +601,10 @@
                 p.innerHTML = ['🎉','🏆','⚽','🐱'][Math.floor(Math.random()*4)];
                 cont.appendChild(p);
                 setTimeout(() => {
-                    p.style.transition = `transform ${1550 + Math.random()*1750}ms linear`;
-                    p.style.transform = `translateY(${370 + Math.random()*270}px) rotate(${Math.random()*480-120}deg)`;
-                    setTimeout(() => p.style.opacity = '0', 1350);
-                }, 35);
+                    p.style.transition = `transform ${1500 + Math.random()*1700}ms linear`;
+                    p.style.transform = `translateY(${360 + Math.random()*280}px) rotate(${Math.random()*480-120}deg)`;
+                    setTimeout(() => p.style.opacity = '0', 1300);
+                }, 30);
             }
         }
 
@@ -669,25 +616,56 @@
 
         function resetGame() {
             const m = document.getElementById('victory-modal');
-            m.classList.remove('flex'); m.classList.add('hidden');
+            m.classList.remove('flex');
+            m.classList.add('hidden');
+            
+            if (world) {
+                Composite.clear(world, false);
+            }
+            
             initGame();
         }
 
-        function initialize() {
-            initAudio();
+        function initGame() {
+            remainingTeams = shuffle([...ALL_TEAMS]);
+            eliminatedTeams = [];
+            tokens = 3200;
+            playsMade = 0;
+            gameOver = false;
+            visibleCoins = [];
+            
+            if (world) {
+                Composite.clear(world, false);
+            }
+            
+            updateUI();
+            renderCatShop();
+            renderEliminatedList();
+            
+            if (!engine) {
+                initPhysics();
+            }
+            
+            setTimeout(() => {
+                spawnInitialCoins();
+                updateUI();
+            }, 100);
+        }
+
+        function initializeEverything() {
             initGame();
             
             document.addEventListener('keydown', e => {
-                if ((e.key === '?' || e.key === '/') && document.activeElement.tagName === "BODY") {
+                if ((e.key === '?' || e.key === '/') && document.activeElement.tagName === 'BODY') {
                     e.preventDefault();
-                    document.getElementById('cat-shop').scrollIntoView({behavior:'smooth'});
+                    document.getElementById('cat-shop').scrollIntoView({ behavior: 'smooth' });
                 }
             });
             
-            console.log('%c[CatCoin Pusher v4] Traditional coin pusher with proper front-edge fall animation ready.', 'color:#4ade80');
+            console.log('%c[CatCoin Pusher v5] Matter.js physics + physical cats ready.', 'color:#4ade80');
         }
         
-        window.onload = initialize;
+        window.onload = initializeEverything;
     </script>
 </body>
 </html>
